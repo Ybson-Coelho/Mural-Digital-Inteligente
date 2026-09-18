@@ -1,0 +1,356 @@
+.tela2-mural {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--color-bg-main);
+    color: var(--color-text-main);
+    font-family: 'Inter', sans-serif;
+    overflow: hidden;
+}
+
+.tela2-mural .tela2-mural__header {
+    width: 100%;
+    height: 70px;
+    padding: 0 45px;
+    background-color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #ffffff;
+}
+
+.tela2-mural .tela2-mural__logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tela2-mural .tela2-mural__logo-icon {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 7px);
+    grid-template-rows: repeat(3, 7px);
+    gap: 3px;
+}
+
+.tela2-mural .tela2-mural__logo-icon span {
+    width: 7px;
+    height: 7px;
+    background-color: #ffffff;
+    border-radius: 1px;
+}
+
+.tela2-mural .tela2-mural__logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.tela2-mural .tela2-mural__logo-text strong {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.tela2-mural .tela2-mural__logo-text small {
+    font-size: 10px;
+}
+
+.tela2-mural .tela2-mural__header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.tela2-mural .tela2-mural__home-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    font-size: 18px;
+}
+
+.tela2-mural .tela2-mural__content {
+    width: 100%;
+    max-width: 1050px;
+    margin: 25px auto;
+    padding: 0 20px;
+}
+
+.tela2-mural .tela2-mural__banner {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-image: url("../assets/images/images\ \(2\).jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+}
+
+.tela2-mural .tela2-mural__banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(0, 77, 45, 0.95),
+        rgba(0, 77, 45, 0.55),
+        rgba(0, 77, 45, 0.10)
+    );
+}
+
+.tela2-mural .tela2-mural__banner-content {
+    position: relative;
+    padding-left: 35px;
+    color: #ffffff;
+}
+
+.tela2-mural .tela2-mural__banner-content h1 {
+    margin: 0 0 12px;
+    font-size: 27px;
+    line-height: 1.1;
+    font-weight: 700;
+}
+
+.tela2-mural .tela2-mural__banner-content p {
+    margin: 0;
+    font-size: 13px;
+}
+
+.tela2-mural .tela2-mural__filters {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.tela2-mural .tela2-mural__filter {
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg-card);
+    color: var(--color-text-main);
+    border-radius: 7px;
+    padding: 10px 24px;
+    font-family: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    transition: 0.2s ease;
+}
+
+.tela2-mural .tela2-mural__filter:hover {
+    background-color: var(--color-primary-hover);
+    color: #ffffff;
+    border-color: var(--color-primary-hover);
+}
+
+.tela2-mural .tela2-mural__filter--active {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    border-color: var(--color-primary);
+}
+
+.tela2-mural .tela2-mural__publications {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tela2-mural .tela2-mural__card {
+    width: 100%;
+    min-height: 105px;
+    padding: 8px;
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.tela2-mural .tela2-mural__card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 70, 50, 0.10);
+}
+
+.tela2-mural .tela2-mural__card-image {
+    position: relative;
+    width: 105px;
+    height: 88px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 6px;
+    background-color: var(--color-bg-main);
+}
+
+.tela2-mural .tela2-mural__card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.tela2-mural .tela2-mural__card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.tela2-mural .tela2-mural__tag {
+    display: inline-block;
+    padding: 4px 9px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background-color: var(--color-primary);
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.tela2-mural .tela2-mural__card-content h2 {
+    margin: 0 0 5px;
+    color: var(--color-text-main);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.tela2-mural .tela2-mural__card-content p {
+    margin: 0 0 5px;
+    color: var(--color-text-muted);
+    font-size: 10px;
+    line-height: 1.4;
+}
+
+.tela2-mural .tela2-mural__date {
+    color: var(--color-text-muted);
+    font-size: 9px;
+}
+
+.tela2-mural .tela2-mural__arrow {
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    font-size: 25px;
+}
+
+.tela2-mural .tela2-mural__play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.65);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.tela2-mural .tela2-mural__empty {
+    width: 100%;
+    min-height: 230px;
+    padding: 40px 20px;
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.tela2-mural .tela2-mural__empty-icon {
+    width: 55px;
+    height: 55px;
+    margin-bottom: 15px;
+    border-radius: 50%;
+    background-color: rgba(0, 107, 63, 0.10);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.tela2-mural .tela2-mural__empty h2 {
+    margin: 0 0 8px;
+    color: var(--color-text-main);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.tela2-mural .tela2-mural__empty p {
+    max-width: 450px;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.tela2-mural .tela2-mural__footer {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: 10px;
+}
+
+@media (max-width: 700px) {
+
+    .tela2-mural .tela2-mural__header {
+        padding: 0 20px;
+    }
+
+    .tela2-mural .tela2-mural__header-title span:last-child {
+        display: none;
+    }
+
+    .tela2-mural .tela2-mural__content {
+        margin-top: 15px;
+    }
+
+    .tela2-mural .tela2-mural__banner {
+        height: 170px;
+    }
+
+    .tela2-mural .tela2-mural__banner-content h1 {
+        font-size: 22px;
+    }
+
+    .tela2-mural .tela2-mural__filters {
+        overflow-x: auto;
+    }
+
+    .tela2-mural .tela2-mural__filter {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    .tela2-mural .tela2-mural__card-image {
+        width: 85px;
+        height: 75px;
+    }
+
+    .tela2-mural .tela2-mural__card-content p {
+        display: none;
+    }
+
+    .tela2-mural .tela2-mural__arrow {
+        width: 20px;
+    }
+}
