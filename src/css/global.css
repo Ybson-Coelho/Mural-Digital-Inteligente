@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #006B3F;         /* Verde institucional (Botões principais, badges) */
+  --color-primary-dark: #004D2D;    /* Verde escuro (Sidebar, Hero header) */
+  --color-primary-hover: #005432;   /* Estado de hover dos botões verdes */
+
+  --color-accent-blue: #007BFF;     /* Tags de categoria (ex: Notícia/Vídeo) */
+  --color-danger: #DC3545;          /* Vermelho de confirmação/exclusão */
+
+  --color-text-main: #212529;       /* Texto principal / Títulos */
+  --color-text-muted: #6C757D;      /* Textos secundários, datas, subtextos */
+
+  --color-bg-main: #F8F9FA;          /* Fundo geral da página */
+  --color-bg-card: #FFFFFF;          /* Fundo dos cards e contêineres */
+  --color-border: #DEE2E6;           /* Bordas de inputs e tabelas */
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg-main);
+    color: var(--color-text-main);
+    line-height: 1.5;
+}
