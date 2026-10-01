@@ -79,7 +79,7 @@ body {
 }
 
 .btn-danger:hover {
-  background-color: #c82333; /* Vermelho escuro para hover */
+  background-color: #c82333;
 }
 
 select {
