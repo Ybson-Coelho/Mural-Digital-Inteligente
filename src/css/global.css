@@ -46,15 +46,13 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-
   border: none;
   border-radius: 8px;
   padding: 11px 16px;
-
   font-family: inherit;
   font-size: 14px;
   font-weight: 600;
-
+  text-decoration: none;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -80,6 +78,14 @@ body {
 
 .btn-danger:hover {
   background-color: #c82333;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-main);
 }
 
 select {

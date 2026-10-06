@@ -1,0 +1,19 @@
+main {
+  position: fixed;
+  top: 64px;
+  left: 220px;
+  right: 0;
+  bottom: 0;
+
+  padding: 24px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}

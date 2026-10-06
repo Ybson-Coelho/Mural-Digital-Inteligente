@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../components/header/header.css" />
+    <link rel="stylesheet" href="../components/sidebar/sidebar.css" />
+
+    <link rel="stylesheet" href="../css/criar-publicacao.css">
+
+    <title>Criar Publicação</title>
+</head>
+<body>
+    <div id="header"></div>
+    <div class="" id="sidebar"></div>
+
+    <main>
+        <form>
+            <h1>Criar Publicação</h1>
+
+            <div class="form-group">
+                <label for="titulo">Título da Publicação</label>
+                <input type="text" id="titulo" name="titulo" placeholder="Digite o título da publicação" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tipo">Tipo de Publicação</label>
+                <select id="tipo" name="tipo" required>
+                    <option value="">Selecione o tipo</option>
+                    <option value="noticia">Notícia</option>
+                    <option value="evento">Evento</option>
+                    <option value="artigo">Artigo</option>
+                </select>
+        </form>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../js/main.js"></script>
+</body>
+</html>

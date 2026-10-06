@@ -15,17 +15,16 @@
 
   <body>
     <div id="header"></div>
-
     <div id="sidebar"></div>
 
     <main>
       <div class="page-header">
         <h1>Lista de Publicações</h1>
 
-        <button class="btn btn-primary" id="btn-nova-publicacao">
+        <a href="criar-publicacao.html" class="btn btn-primary">
           <i data-lucide="plus"></i>
           Nova Publicação
-        </button>
+        </a>
       </div>
 
       <div class="page-search">
@@ -33,7 +32,6 @@
           <input
             type="text"
             id="search"
-            name="search"
             placeholder="Buscar publicação..."
           />
           <button class="btn btn-primary" id="btn-search">
@@ -41,11 +39,11 @@
           </button>
         </div>
 
-        <select id="type" name="type">
-          <option value="all" selected>Todos os Tipos</option>
-          <option value="noticia">Notícia</option>
-          <option value="evento">Evento</option>
-          <option value="artigo">Artigo</option>
+        <select id="type">
+          <option value="0" selected>Todos os Tipos</option>
+          <option value="1">Notícia</option>
+          <option value="2">Evento</option>
+          <option value="3">Artigo</option>
         </select>
       </div>
 
