@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 250" width="100%" height="100%">
+  <!-- Fundo Gradiente Verde Escuro -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#022317" />
+      <stop offset="50%" stop-color="#004d2d" />
+      <stop offset="100%" stop-color="#011910" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="400" height="250" fill="url(#bgGradient)" />
+
+  <!-- Detalhes Geométricos de Fundo -->
+  <circle cx="200" cy="125" r="90" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="2" />
+  <circle cx="200" cy="125" r="120" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1" />
+
+  <!-- Conteúdo de Texto Central -->
+  <g text-anchor="middle" font-family="'Inter', sans-serif">
+    <!-- Texto SUPERIOR: SEMANA -->
+    <text x="200" y="105" fill="#ffffff" font-size="22" font-weight="700" letter-spacing="6">SEMANA</text>
+    
+    <!-- Linha Divisória Decorativa -->
+    <line x1="140" y1="120" x2="260" y2="120" stroke="#32a852" stroke-width="3" stroke-linecap="round" />
+    
+    <!-- Texto INFERIOR: C&T -->
+    <text x="200" y="175" fill="#ffffff" font-size="48" font-weight="900" letter-spacing="2">C&amp;T</text>
+  </g>
+</svg>
