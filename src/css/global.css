@@ -1,35 +1,123 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 :root {
-  --color-primary: #006B3F;         /* Verde institucional (Botões principais, badges) */
-  --color-primary-dark: #004D2D;    /* Verde escuro (Sidebar, Hero header) */
-  --color-primary-hover: #005432;   /* Estado de hover dos botões verdes */
+  --color-primary: #06613b; /* Verde institucional (Botões principais, badges) */
+  --color-primary-dark: #004d2d; /* Verde escuro (Sidebar, Hero header) */
+  --color-primary-hover: #09422b; /* Estado de hover dos botões verdes */
 
-  --color-accent-blue: #007BFF;     /* Tags de categoria (ex: Notícia/Vídeo) */
-  --color-danger: #DC3545;          /* Vermelho de confirmação/exclusão */
+  --color-accent-blue: #007bff; /* Tags de categoria (ex: Notícia/Vídeo) */
+  --color-danger: #dc3545; /* Vermelho de confirmação/exclusão */
 
-  --color-text-main: #212529;       /* Texto principal / Títulos */
-  --color-text-muted: #6C757D;      /* Textos secundários, datas, subtextos */
+  --color-text-main: #212529; /* Texto principal / Títulos */
+  --color-text-muted: #6c757d; /* Textos secundários, datas, subtextos */
+  --color-text-light: #f8f9fa; /* Texto claro (em botões escuros, por exemplo) */
 
-  --color-bg-main: #F8F9FA;          /* Fundo geral da página */
-  --color-bg-card: #FFFFFF;          /* Fundo dos cards e contêineres */
-  --color-border: #DEE2E6;           /* Bordas de inputs e tabelas */
+  --color-bg-main: #f8f9fa; /* Fundo geral da página */
+  --color-bg-card: #ffffff; /* Fundo dos cards e contêineres */
+  --color-border: #dee2e6; /* Bordas de inputs e tabelas */
+
+  --font-family-base: "Manrope", sans-serif; /* Fonte base para todo o site */
 }
 
-html {
-    scroll-behavior: smooth;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  scroll-behavior: smooth;
 }
 
 body {
-    min-height: 100vh;
-    font-family: 'Inter', sans-serif;
-    background-color: var(--color-bg-main);
-    color: var(--color-text-main);
-    line-height: 1.5;
+  min-height: 100vh;
+  font-family: var(--font-family-base);
+  background-color: var(--color-bg-main);
+  color: var(--color-text-main);
+  line-height: 1.5;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  border-radius: 8px;
+  padding: 11px 16px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+select {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  font-size: 16px;
+  color: var(--color-text-main);
+  background-color: var(--color-bg-card);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: var(--color-text-main);
+  background-color: var(--color-bg-card);
+  border: 2px solid var(--color-border);
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--color-primary);
 }
