@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../components/sidebar/sidebar.css" />
     <link rel="stylesheet" href="../css/criar-publicacao.css" />
 
-    <title>Criar Publicação</title>
+    <title>Criar Publicação - Mural Digital IFTO</title>
   </head>
 
   <body>
@@ -81,28 +81,6 @@
         </div>
 
         <fieldset class="campos-tipo" id="campos-noticia" hidden disabled>
-          <div class="form-group">
-            <label for="titulo-noticia">Título da Notícia</label>
-            <input
-              type="text"
-              id="titulo-noticia"
-              name="titulo_noticia"
-              placeholder="Digite o título da notícia"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="categoria-noticia">Categoria</label>
-            <input
-              type="text"
-              id="categoria-noticia"
-              name="categoria_noticia"
-              placeholder="Ex.: Avisos, Esportes, Cultura"
-              required
-            />
-          </div>
-
           <div class="form-group">
             <label for="conteudo">Descrição da Notícia</label>
 
@@ -197,14 +175,67 @@
           </div>
 
           <div class="form-group">
-            <label for="descricao-evento">Descrição do Evento</label>
-            <textarea
-              id="descricao-evento"
-              name="descricao_evento"
-              rows="5"
-              placeholder="Descreva o evento"
-              required
-            ></textarea>
+            <label for="conteudo">Descrição do Evento</label>
+
+            <div
+              class="editor-toolbar"
+              role="toolbar"
+              aria-label="Ferramentas de formatação"
+            >
+              <button
+                type="button"
+                data-comando="bold"
+                title="Negrito"
+                aria-label="Negrito"
+              >
+                <i data-lucide="bold"></i>
+              </button>
+
+              <button
+                type="button"
+                data-comando="italic"
+                title="Itálico"
+                aria-label="Itálico"
+              >
+                <i data-lucide="italic"></i>
+              </button>
+
+              <button
+                type="button"
+                data-comando="underline"
+                title="Sublinhado"
+                aria-label="Sublinhado"
+              >
+                <i data-lucide="underline"></i>
+              </button>
+
+              <button
+                type="button"
+                data-comando="insertUnorderedList"
+                title="Lista"
+                aria-label="Lista com marcadores"
+              >
+                <i data-lucide="list"></i>
+              </button>
+
+              <button
+                type="button"
+                data-comando="insertOrderedList"
+                title="Lista numerada"
+                aria-label="Lista numerada"
+              >
+                <i data-lucide="list-ordered"></i>
+              </button>
+            </div>
+
+            <div
+              id="conteudo"
+              class="editor-conteudo"
+              contenteditable="true"
+              role="textbox"
+              aria-multiline="true"
+              aria-label="Descrição do evento"
+            ></div>
           </div>
 
           <div class="form-group">
@@ -221,24 +252,12 @@
 
         <fieldset class="campos-tipo" id="campos-video" hidden disabled>
           <div class="form-group">
-            <label for="duracao-video">Duração do Vídeo (segundos)</label>
+            <label for="arquivo-video">Selecionar Vídeo</label>
             <input
-              type="number"
-              id="duracao-video"
-              name="duracao_video"
-              min="1"
-              placeholder="Ex.: 120"
-              required
-            />
-          </div>
-
-          <div class="form-group">
-            <label for="tipo-video">Tipo do Vídeo</label>
-            <input
-              type="text"
-              id="tipo-video"
-              name="tipo_video"
-              placeholder="Ex.: Institucional, Tutorial, Aviso"
+              type="file"
+              id="arquivo-video"
+              name="arquivo_video"
+              accept="video/*"
               required
             />
           </div>
