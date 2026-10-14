@@ -37,7 +37,7 @@ body {
     text-transform: capitalize;
 }
 
-main.mural-main {
+.mural-main {
     flex: 1;
     min-height: 0;
     display: flex;
