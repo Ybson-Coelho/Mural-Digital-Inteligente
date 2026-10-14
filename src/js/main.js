@@ -18,23 +18,33 @@ async function loadComponent(selector, path) {
 
 function setActiveSidebarItem() {
   const currentPage = window.location.pathname.split("/").pop() || "index.html";
-
   const sidebarItems = document.querySelectorAll(".sidebar-item");
 
   sidebarItems.forEach((item) => {
     const page = item.getAttribute("href")?.split("/").pop() || "index.html";
+    const isDirectMatch = page === currentPage;
+    const isPublicationChild =
+      currentPage === "criar-publicacao.html" &&
+      page === "gerenciar-publicacoes.html";
 
-    if (page === currentPage) {
+    if (isDirectMatch || isPublicationChild) {
       item.classList.add("active");
     }
   });
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  await loadComponent("#header", "../components/header/header.html");
-  await loadComponent("#sidebar", "../components/sidebar/sidebar.html");
+  await Promise.all([
+    loadComponent("#header", "../components/header/header.html"),
+    loadComponent("#sidebar", "../components/sidebar/sidebar.html"),
+  ]);
 
   setActiveSidebarItem();
 
-  lucide.createIcons();
+  if (
+    typeof lucide !== "undefined" &&
+    typeof lucide.createIcons === "function"
+  ) {
+    lucide.createIcons();
+  }
 });

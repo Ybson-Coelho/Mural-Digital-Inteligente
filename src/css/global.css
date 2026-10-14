@@ -7,22 +7,34 @@
 }
 
 :root {
-  --color-primary: #06613b; /* Verde institucional (Botões principais, badges) */
-  --color-primary-dark: #004d2d; /* Verde escuro (Sidebar, Hero header) */
-  --color-primary-hover: #09422b; /* Estado de hover dos botões verdes */
+  --color-primary: #06613b;
+  /* Verde institucional (Botões principais, badges) */
+  --color-primary-dark: #004d2d;
+  /* Verde escuro (Sidebar, Hero header) */
+  --color-primary-hover: #09422b;
+  /* Estado de hover dos botões verdes */
 
-  --color-accent-blue: #007bff; /* Tags de categoria (ex: Notícia/Vídeo) */
-  --color-danger: #dc3545; /* Vermelho de confirmação/exclusão */
+  --color-accent-blue: #007bff;
+  /* Tags de categoria (ex: Notícia/Vídeo) */
+  --color-danger: #dc3545;
+  /* Vermelho de confirmação/exclusão */
 
-  --color-text-main: #212529; /* Texto principal / Títulos */
-  --color-text-muted: #6c757d; /* Textos secundários, datas, subtextos */
-  --color-text-light: #f8f9fa; /* Texto claro (em botões escuros, por exemplo) */
+  --color-text-main: #212529;
+  /* Texto principal / Títulos */
+  --color-text-muted: #6c757d;
+  /* Textos secundários, datas, subtextos */
+  --color-text-light: #f8f9fa;
+  /* Texto claro (em botões escuros, por exemplo) */
 
-  --color-bg-main: #f8f9fa; /* Fundo geral da página */
-  --color-bg-card: #ffffff; /* Fundo dos cards e contêineres */
-  --color-border: #dee2e6; /* Bordas de inputs e tabelas */
+  --color-bg-main: #f8f9fa;
+  /* Fundo geral da página */
+  --color-bg-card: #ffffff;
+  /* Fundo dos cards e contêineres */
+  --color-border: #dee2e6;
+  /* Bordas de inputs e tabelas */
 
-  --font-family-base: "Manrope", sans-serif; /* Fonte base para todo o site */
+  --font-family-base: "Manrope", sans-serif;
+  /* Fonte base para todo o site */
 }
 
 html,
@@ -57,67 +69,131 @@ body {
   transition: background-color 0.2s ease;
 }
 
-.btn svg {
+.btn svg,
+.btn i {
   width: 18px;
   height: 18px;
 }
 
 .btn-primary {
   background-color: var(--color-primary);
-  color: white;
+  color: #ffffff;
 }
 
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
 }
 
+.btn-secondary {
+  background-color: var(--color-border);
+  color: var(--color-text-main);
+}
+
+.btn-secondary:hover {
+  background-color: #ced4da;
+}
+
 .btn-danger {
   background-color: var(--color-danger);
-  color: white;
+  color: #ffffff;
 }
 
 .btn-danger:hover {
   background-color: #c82333;
 }
 
+.page-header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.admin-main {
+  position: fixed;
+  top: 72px;
+  left: 220px;
+  right: 0;
+  bottom: 0;
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
 label {
   display: block;
   margin-bottom: 8px;
-  font-size: 14px;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--color-text-main);
 }
 
-select {
-  width: 100%;
-  padding: 12px 40px 12px 16px;
-  font-size: 16px;
-  color: var(--color-text-main);
-  background-color: var(--color-bg-card);
-  border: 2px solid var(--color-border);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-select:focus {
-  outline: none;
-  border-color: var(--color-primary);
-}
-
-input[type="text"] {
-  width: 100%;
-  padding: 12px 16px;
+input,
+select,
+textarea {
+  font-family: inherit;
   font-size: 16px;
   color: var(--color-text-main);
   background-color: var(--color-bg-card);
   border: 2px solid var(--color-border);
   border-radius: 8px;
   box-sizing: border-box;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
-input[type="text"]:focus {
+input:focus,
+select:focus,
+textarea:focus {
   outline: none;
   border-color: var(--color-primary);
+}
+
+select {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  cursor: pointer;
+}
+
+input {
+  width: 100%;
+  padding: 12px 16px;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  padding: 12px 16px;
+  resize: none;
+}
+
+@media (max-width: 1024px) {
+  .admin-main {
+    left: 190px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-main {
+    left: 0;
+    right: 0;
+    bottom: 56px;
+    padding: 14px 10px;
+  }
+
+  .page-header {
+    margin-bottom: 14px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .page-header h1 {
+    font-size: 1.3125rem;
+  }
 }
