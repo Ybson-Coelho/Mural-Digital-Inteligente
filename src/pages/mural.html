@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mural Digital IFTO</title>
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/mural.css">
+
+    <script src="../js/mural.js" defer></script>
+</head>
+
+<body>
+
+    <div class="tela2-mural">
+
+        <header class="tela2-mural__header">
+
+            <div class="tela2-mural__logo">
+
+                <div class="tela2-mural__logo-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <div class="tela2-mural__logo-text">
+                    <strong>INSTITUTO FEDERAL</strong>
+                    <small>Tocantins</small>
+                </div>
+
+            </div>
+
+            <div class="tela2-mural__header-title">
+
+                <span class="tela2-mural__home-icon">
+                    ⌂
+                </span>
+
+                <span>
+                    Mural IFTO
+                </span>
+
+            </div>
+
+        </header>
+
+
+        <main class="tela2-mural__content">
+
+            <section class="tela2-mural__banner">
+
+                <div class="tela2-mural__banner-overlay"></div>
+
+                <div class="tela2-mural__banner-content">
+
+                    <h1>
+                        Bem-vindo ao<br>
+                        Mural Digital do IFTO
+                    </h1>
+
+                    <p>
+                        Fique por dentro das novidades,
+                        eventos e comunicados.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <nav
+                class="tela2-mural__filters"
+                aria-label="Categorias das publicações">
+
+                <button
+                    type="button"
+                    class="tela2-mural__filter tela2-mural__filter--active"
+                    data-filtro="todos">
+
+                    <span>▦</span>
+                    Todos
+
+                </button>
+
+                <button
+                    type="button"
+                    class="tela2-mural__filter"
+                    data-filtro="noticia">
+
+                    <span>▤</span>
+                    Notícias
+
+                </button>
+
+                <button
+                    type="button"
+                    class="tela2-mural__filter"
+                    data-filtro="evento">
+
+                    <span>▣</span>
+                    Eventos
+
+                </button>
+
+                <button
+                    type="button"
+                    class="tela2-mural__filter"
+                    data-filtro="video">
+
+                    <span>▷</span>
+                    Vídeos
+
+                </button>
+
+            </nav>
+
+
+            <section
+                class="tela2-mural__publications"
+                id="publicacoes">
+
+                <article
+                    class="tela2-mural__card"
+                    data-tipo="noticia"
+                    onclick="window.location.href='visualizar.html'">
+
+                    <div class="tela2-mural__card-image">
+
+                        <img
+                            src="../assets/images/images (3).jpg"
+                            alt="Imagem da notícia">
+
+                    </div>
+
+                    <div class="tela2-mural__card-content">
+
+                        <span class="tela2-mural__tag">
+                            Notícia
+                        </span>
+
+                        <h2>
+                            IFTO abre inscrições para novos cursos técnicos
+                        </h2>
+
+                        <p>
+                            O Instituto Federal do Tocantins está com
+                            inscrições abertas para novos cursos técnicos
+                            em diferentes áreas.
+                        </p>
+
+                        <span class="tela2-mural__date">
+                            12/09/2025
+                        </span>
+
+                    </div>
+
+                    <div class="tela2-mural__arrow">
+                        ›
+                    </div>
+
+                </article>
+
+            </section>
+
+        </main>
+
+
+        <footer class="tela2-mural__footer">
+            IFTO • Mural Digital
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
