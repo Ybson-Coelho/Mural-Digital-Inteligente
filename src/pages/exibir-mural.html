@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../components/header/header.css" />
+    <link rel="stylesheet" href="../css/exibir-mural.css" />
+
+    <title>Mural Digital IFTO</title>
+  </head>
+
+  <body>
+    <header class="header">
+      <a href="../index.html" class="header-logo">
+        <img
+          src="../assets/images/logo-ifto.png"
+          alt="Instituto Federal do Tocantins"
+        />
+      </a>
+      <div class="data">
+        <strong id="data-hoje"></strong>
+        <span id="dia-semana"></span>
+      </div>
+    </header>
+
+    <main class="mural-main">
+      <section class="card" id="area-central" aria-live="polite"></section>
+
+      <aside class="qr" aria-label="Acesso rápido via QR Code">
+        <h2>Acesse mais informações</h2>
+        <div id="qrcode" aria-hidden="true"></div>
+        <p>Escaneie o QR Code e confira a programação, eventos e notícias.</p>
+      </aside>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="../js/exibir-mural.js"></script>
+  </body>
+</html>

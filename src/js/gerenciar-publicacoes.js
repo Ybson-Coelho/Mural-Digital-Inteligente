@@ -14,13 +14,13 @@ let publicacoes = [
   {
     titulo: "Publicação 3",
     data: "03/07/2026",
-    tipo: "Artigo",
+    tipo: "Vídeo",
     tipo_id: 3,
   },
   {
     titulo: "Publicação 4",
     data: "04/07/2026",
-    tipo: "Artigo",
+    tipo: "Vídeo",
     tipo_id: 3,
   },
   {
@@ -34,18 +34,19 @@ let publicacoes = [
 const selectFiltro = document.getElementById("type");
 const inputBusca = document.getElementById("search");
 const btnBusca = document.getElementById("btn-search");
+const listaPublicacoes = document.getElementById("publicacoes-list");
+
+let timeoutSucesso;
 
 function carregarPublicacoes(type = 0, busca = "") {
-  const listaPublicacoes = document.getElementById("publicacoes-list");
+  if (!listaPublicacoes) return;
 
   listaPublicacoes.innerHTML = "";
-
-  busca = busca.toLowerCase().trim();
+  const termo = busca.toLowerCase().trim();
 
   const publicacoesFiltradas = publicacoes.filter((publicacao) => {
-    const correspondeTipo = type == 0 || publicacao.tipo_id == type;
-
-    const correspondeBusca = publicacao.titulo.toLowerCase().includes(busca);
+    const correspondeTipo = type === 0 || publicacao.tipo_id === type;
+    const correspondeBusca = publicacao.titulo.toLowerCase().includes(termo);
 
     return correspondeTipo && correspondeBusca;
   });
@@ -54,84 +55,77 @@ function carregarPublicacoes(type = 0, busca = "") {
     listaPublicacoes.innerHTML = `
       <div class="sem-publicacoes">
         <h3>Nenhuma publicação encontrada</h3>
-        <p>
-          Não encontramos nenhuma publicação com os filtros informados.
-        </p>
+        <p>Não encontramos nenhuma publicação com os filtros informados.</p>
       </div>
     `;
-
     return;
   }
 
   publicacoesFiltradas.forEach((publicacao) => {
     const index = publicacoes.indexOf(publicacao);
 
-    const publicacaoItem = document.createElement("div");
-    publicacaoItem.classList.add("publicacao-item");
-    publicacaoItem.setAttribute("data-index", index);
+    const item = document.createElement("div");
+    item.className = "publicacao-item";
+    item.dataset.index = index;
 
-    publicacaoItem.innerHTML = `
-      <h3 class="publicacao-titulo">
-        ${publicacao.titulo}
-      </h3>
-
-      <span class="publicacao-tipo">
-        ${publicacao.tipo}
-      </span>
-
-      <span class="publicacao-data">
-        ${publicacao.data}
-      </span>
+    item.innerHTML = `
+      <span class="publicacao-titulo">${publicacao.titulo}</span>
+      <span class="publicacao-tipo">${publicacao.tipo}</span>
+      <span class="publicacao-data">${publicacao.data}</span>
+      <div class="publicacao-acoes">
+        <button
+          type="button"
+          class="btn btn-primary"
+          title="Editar"
+          aria-label="Editar publicação: ${publicacao.titulo}"
+        >
+          <i data-lucide="edit"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger btn-excluir"
+          data-index="${index}"
+          title="Excluir"
+          aria-label="Excluir publicação: ${publicacao.titulo}"
+        >
+          <i data-lucide="trash-2"></i>
+        </button>
+      </div>
     `;
 
-    const acoesDiv = document.createElement("div");
-    acoesDiv.classList.add("publicacao-acoes");
-
-    acoesDiv.innerHTML = `
-      <button class="btn btn-primary">
-        <i data-lucide="edit"></i>
-      </button>
-
-      <button
-        class="btn btn-danger"
-        onclick="deletarItem(${index})"
-      >
-        <i data-lucide="trash-2"></i>
-      </button>
-    `;
-
-    publicacaoItem.appendChild(acoesDiv);
-    listaPublicacoes.appendChild(publicacaoItem);
+    listaPublicacoes.appendChild(item);
   });
 
-  lucide.createIcons();
+  if (
+    typeof lucide !== "undefined" &&
+    typeof lucide.createIcons === "function"
+  ) {
+    lucide.createIcons();
+  }
 }
 
 function deletarItem(index) {
   const publicacao = publicacoes[index];
+  if (!publicacao) return;
 
   const toastExistente = document.querySelector(".toast-confirmacao");
-
   if (toastExistente) {
     toastExistente.remove();
   }
 
   const toast = document.createElement("div");
-  toast.classList.add("toast-confirmacao");
+  toast.className = "toast-confirmacao";
+  toast.setAttribute("role", "dialog");
+  toast.setAttribute("aria-modal", "true");
 
   toast.innerHTML = `
     <strong>Excluir publicação?</strong>
-
-    <p>
-      Tem certeza que deseja apagar "${publicacao.titulo}"?
-    </p>
-
+    <p>Tem certeza que deseja apagar "${publicacao.titulo}"?</p>
     <div class="toast-acoes">
-      <button class="btn btn-secondary" id="btn-cancelar-exclusao">
+      <button type="button" class="btn btn-secondary" id="btn-cancelar-exclusao">
         Cancelar
       </button>
-
-      <button class="btn btn-danger" id="btn-confirmar-exclusao">
+      <button type="button" class="btn btn-danger" id="btn-confirmar-exclusao">
         Excluir
       </button>
     </div>
@@ -139,34 +133,34 @@ function deletarItem(index) {
 
   document.body.appendChild(toast);
 
-  document
-    .getElementById("btn-cancelar-exclusao")
-    .addEventListener("click", () => {
-      toast.remove();
-    });
+  const btnCancelar = document.getElementById("btn-cancelar-exclusao");
+  const btnConfirmar = document.getElementById("btn-confirmar-exclusao");
 
-  document
-    .getElementById("btn-confirmar-exclusao")
-    .addEventListener("click", () => {
-      publicacoes.splice(index, 1);
+  btnCancelar.focus();
 
-      toast.remove();
+  btnCancelar.addEventListener("click", () => {
+    toast.remove();
+  });
 
-      carregarPublicacoes(Number(selectFiltro.value));
-
-      mostrarToastSucesso("Publicação excluída com sucesso!");
-    });
+  btnConfirmar.addEventListener("click", () => {
+    publicacoes.splice(index, 1);
+    toast.remove();
+    executarBusca();
+    mostrarToastSucesso("Publicação excluída com sucesso!");
+  });
 }
 
 function mostrarToastSucesso(mensagem) {
-  const toastExistente = document.querySelector(".toast-sucesso");
+  clearTimeout(timeoutSucesso);
 
+  const toastExistente = document.querySelector(".toast-sucesso");
   if (toastExistente) {
     toastExistente.remove();
   }
 
   const toast = document.createElement("div");
-  toast.classList.add("toast-sucesso");
+  toast.className = "toast-sucesso";
+  toast.setAttribute("role", "status");
 
   toast.innerHTML = `
     <i data-lucide="check-circle"></i>
@@ -175,37 +169,51 @@ function mostrarToastSucesso(mensagem) {
 
   document.body.appendChild(toast);
 
-  lucide.createIcons();
+  if (
+    typeof lucide !== "undefined" &&
+    typeof lucide.createIcons === "function"
+  ) {
+    lucide.createIcons();
+  }
 
-  setTimeout(() => {
+  timeoutSucesso = setTimeout(() => {
     toast.remove();
   }, 3000);
 }
 
-selectFiltro.addEventListener("change", () => {
-  const tipoSelecionado = Number(selectFiltro.value);
-
-  carregarPublicacoes(tipoSelecionado);
-});
-
 function executarBusca() {
-  const busca = inputBusca.value;
-  const tipo = Number(selectFiltro.value);
+  const busca = inputBusca ? inputBusca.value : "";
+  const tipo = selectFiltro ? Number(selectFiltro.value) : 0;
 
   carregarPublicacoes(tipo, busca);
 }
 
-btnBusca.addEventListener("click", executarBusca);
+if (listaPublicacoes) {
+  listaPublicacoes.addEventListener("click", (e) => {
+    const btnExcluir = e.target.closest(".btn-excluir");
+    if (btnExcluir) {
+      const index = Number(btnExcluir.dataset.index);
+      deletarItem(index);
+    }
+  });
+}
 
-inputBusca.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    executarBusca();
-  }
-});
+if (btnBusca) {
+  btnBusca.addEventListener("click", executarBusca);
+}
 
-selectFiltro.addEventListener("change", () => {
-  executarBusca();
-});
+if (inputBusca) {
+  inputBusca.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      executarBusca();
+    }
+  });
+}
+
+if (selectFiltro) {
+  selectFiltro.addEventListener("change", executarBusca);
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   carregarPublicacoes(0, "");

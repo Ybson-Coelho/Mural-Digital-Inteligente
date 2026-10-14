@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../css/global.css" />
     <link rel="stylesheet" href="../components/header/header.css" />
     <link rel="stylesheet" href="../components/sidebar/sidebar.css" />
-
     <link rel="stylesheet" href="../css/gerenciar-publicacoes.css" />
 
     <title>Gerenciar Publicações</title>
@@ -17,7 +16,7 @@
     <div id="header"></div>
     <div id="sidebar"></div>
 
-    <main>
+    <main class="admin-main">
       <div class="page-header">
         <h1>Lista de Publicações</h1>
 
@@ -33,22 +32,32 @@
             type="text"
             id="search"
             placeholder="Buscar publicação..."
+            aria-label="Buscar publicação"
           />
-          <button class="btn btn-primary" id="btn-search">
+          <button
+            class="btn btn-primary"
+            id="btn-search"
+            type="button"
+            aria-label="Buscar"
+          >
             <i data-lucide="search"></i>
           </button>
         </div>
 
-        <select id="type">
+        <select id="type" aria-label="Filtrar por tipo de publicação">
           <option value="0" selected>Todos os Tipos</option>
           <option value="1">Notícia</option>
           <option value="2">Evento</option>
-          <option value="3">Artigo</option>
+          <option value="3">Vídeo</option>
         </select>
       </div>
 
-      <div class="publicacoes-container" id="publicacoes-container">
-        <div class="publicacoes-header">
+      <section
+        class="publicacoes-container"
+        id="publicacoes-container"
+        aria-label="Tabela de publicações"
+      >
+        <div class="publicacoes-header" role="row">
           <span>Título</span>
           <span>Tipo</span>
           <span>Data</span>
@@ -56,7 +65,7 @@
         </div>
 
         <div class="publicacoes-list" id="publicacoes-list"></div>
-      </div>
+      </section>
     </main>
 
     <script src="https://unpkg.com/lucide@latest"></script>

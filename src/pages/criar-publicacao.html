@@ -1,42 +1,253 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="stylesheet" href="../css/global.css" />
     <link rel="stylesheet" href="../components/header/header.css" />
     <link rel="stylesheet" href="../components/sidebar/sidebar.css" />
-
-    <link rel="stylesheet" href="../css/criar-publicacao.css">
+    <link rel="stylesheet" href="../css/criar-publicacao.css" />
 
     <title>Criar Publicação</title>
-</head>
-<body>
+  </head>
+
+  <body>
     <div id="header"></div>
-    <div class="" id="sidebar"></div>
+    <div id="sidebar"></div>
 
-    <main>
-        <form>
-            <h1>Criar Publicação</h1>
+    <main class="admin-main">
+      <form id="form-publicacao">
+        <div class="page-header">
+          <h1>Criar Nova Publicação</h1>
 
-            <div class="form-group">
-                <label for="titulo">Título da Publicação</label>
-                <input type="text" id="titulo" name="titulo" placeholder="Digite o título da publicação" required>
+          <button type="submit" class="btn btn-primary" id="btn-salvar">
+            <i data-lucide="upload"></i>
+            Publicar
+          </button>
+        </div>
+
+        <div class="form-group">
+          <label for="titulo">Título da Publicação</label>
+          <input
+            type="text"
+            id="titulo"
+            name="titulo_publicacao"
+            placeholder="Digite o título da publicação"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="data-publicacao">Data da Publicação</label>
+          <input
+            type="date"
+            id="data-publicacao"
+            name="data_publicacao"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="data-final">Data Final da Publicação</label>
+          <input
+            type="date"
+            id="data-final"
+            name="data_final_publicacao"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="tempo-tela">Tempo de Tela (segundos)</label>
+          <input
+            type="number"
+            id="tempo-tela"
+            name="tempo_de_tela_publicacao"
+            min="1"
+            placeholder="Ex.: 15"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="tipo">Tipo de Publicação</label>
+          <select id="tipo" name="tipo" required>
+            <option value="" disabled selected>Selecione o tipo</option>
+            <option value="1">Notícia</option>
+            <option value="2">Evento</option>
+            <option value="3">Vídeo</option>
+          </select>
+        </div>
+
+        <fieldset class="campos-tipo" id="campos-noticia" hidden disabled>
+          <div class="form-group">
+            <label for="titulo-noticia">Título da Notícia</label>
+            <input
+              type="text"
+              id="titulo-noticia"
+              name="titulo_noticia"
+              placeholder="Digite o título da notícia"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="categoria-noticia">Categoria</label>
+            <input
+              type="text"
+              id="categoria-noticia"
+              name="categoria_noticia"
+              placeholder="Ex.: Avisos, Esportes, Cultura"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="conteudo">Descrição da Notícia</label>
+
+            <div
+              class="editor-toolbar"
+              role="toolbar"
+              aria-label="Ferramentas de formatação"
+            >
+              <button
+                type="button"
+                data-comando="bold"
+                title="Negrito"
+                aria-label="Negrito"
+              >
+                <i data-lucide="bold"></i>
+              </button>
+
+              <button
+                type="button"
+                data-comando="italic"
+                title="Itálico"
+                aria-label="Itálico"
+              >
+                <i data-lucide="italic"></i>
+              </button>
+
+              <button
+                type="button"
+                data-comando="underline"
+                title="Sublinhado"
+                aria-label="Sublinhado"
+              >
+                <i data-lucide="underline"></i>
+              </button>
+
+              <button
+                type="button"
+                data-comando="insertUnorderedList"
+                title="Lista"
+                aria-label="Lista com marcadores"
+              >
+                <i data-lucide="list"></i>
+              </button>
+
+              <button
+                type="button"
+                data-comando="insertOrderedList"
+                title="Lista numerada"
+                aria-label="Lista numerada"
+              >
+                <i data-lucide="list-ordered"></i>
+              </button>
             </div>
 
-            <div class="form-group">
-                <label for="tipo">Tipo de Publicação</label>
-                <select id="tipo" name="tipo" required>
-                    <option value="">Selecione o tipo</option>
-                    <option value="noticia">Notícia</option>
-                    <option value="evento">Evento</option>
-                    <option value="artigo">Artigo</option>
-                </select>
-        </form>
+            <div
+              id="conteudo"
+              class="editor-conteudo"
+              contenteditable="true"
+              role="textbox"
+              aria-multiline="true"
+              aria-label="Descrição da notícia"
+            ></div>
+          </div>
+        </fieldset>
+
+        <fieldset class="campos-tipo" id="campos-evento" hidden disabled>
+          <div class="form-group">
+            <label for="tipo-evento">Tipo do Evento</label>
+            <input
+              type="text"
+              id="tipo-evento"
+              name="tipo_evento"
+              placeholder="Ex.: Palestra, Feira, Reunião"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="data-evento">Data do Evento</label>
+            <input type="date" id="data-evento" name="data_evento" required />
+          </div>
+
+          <div class="form-group">
+            <label for="poster-evento">Pôster do Evento</label>
+            <input
+              type="file"
+              id="poster-evento"
+              name="arquivo_poster_img"
+              accept="image/*"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="descricao-evento">Descrição do Evento</label>
+            <textarea
+              id="descricao-evento"
+              name="descricao_evento"
+              rows="5"
+              placeholder="Descreva o evento"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="publico-evento">Público do Evento</label>
+            <input
+              type="text"
+              id="publico-evento"
+              name="publico_evento"
+              placeholder="Ex.: Alunos, Comunidade em geral"
+              required
+            />
+          </div>
+        </fieldset>
+
+        <fieldset class="campos-tipo" id="campos-video" hidden disabled>
+          <div class="form-group">
+            <label for="duracao-video">Duração do Vídeo (segundos)</label>
+            <input
+              type="number"
+              id="duracao-video"
+              name="duracao_video"
+              min="1"
+              placeholder="Ex.: 120"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="tipo-video">Tipo do Vídeo</label>
+            <input
+              type="text"
+              id="tipo-video"
+              name="tipo_video"
+              placeholder="Ex.: Institucional, Tutorial, Aviso"
+              required
+            />
+          </div>
+        </fieldset>
+      </form>
     </main>
 
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../js/criar-publicacao.js"></script>
     <script src="../js/main.js"></script>
-</body>
+  </body>
 </html>
