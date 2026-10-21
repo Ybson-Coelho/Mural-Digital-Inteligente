@@ -1,0 +1,258 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f1f5f9;
+  color: #334155;
+}
+
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #064e3b;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px 25px 20px;
+  border-bottom: 1px solid #04392b;
+}
+
+.logo-sidebar {
+  width: 40px;
+  height: auto;
+}
+
+.text-logo_I h3 {
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.text-logo_I h4 {
+  font-size: 11px;
+  color: #cbd5e1;
+  font-weight: normal;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+  flex: 1;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background-color 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.nav-item.active, .submenu-item.active {
+  background-color: #04392b;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.nav-item:hover, .submenu-item:hover {
+  background-color: #04392b;
+  color: #ffffff;
+}
+
+.nav-item .arrow {
+  margin-left: auto;
+  font-size: 11px;
+  transition: transform 0.3s ease;
+}
+
+.nav-dropdown.open .arrow {
+  transform: rotate(90deg);
+}
+
+.submenu {
+  display: none;
+  background-color: #032b20;
+  flex-direction: column;
+}
+
+.nav-dropdown.open .submenu {
+  display: flex;
+}
+
+.submenu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px 10px 45px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 13px;
+  transition: 0.2s;
+}
+
+.sidebar-footer {
+  border-top: 1px solid #04392b;
+  padding-top: 10px;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  background-color: #064e3b;
+  height: 50px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 30px;
+  color: white;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.arrow-user {
+  font-size: 11px;
+  transition: transform 0.3s ease;
+}
+
+.user-profile.open .arrow-user {
+  transform: rotate(90deg);
+}
+
+.content-area {
+  padding: 30px;
+}
+
+.content-area h1 {
+  font-size: 22px;
+  margin-bottom: 25px;
+  color: #0f172a;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.card-icon {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 18px;
+}
+
+.green-bg { background-color: #059669; }
+.blue-bg { background-color: #0284c7; }
+.green-light-bg { background-color: #10b981; }
+.purple-bg { background-color: #8b5cf6; }
+
+.card-info small {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.card-info h2 {
+  font-size: 22px;
+  color: #0f172a;
+}
+
+.table-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.table-container h3 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  color: #1e293b;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.empty-message {
+  text-align: center;
+  color: #94a3b8;
+  padding: 25px 0;
+  font-style: italic;
+}
+
+.btn-new {
+  margin-top: 20px;
+  background-color: #064e3b;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+}
+
+.btn-new:hover {
+  background-color: #04392b;
+}
