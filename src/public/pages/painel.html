@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Administrativo | Mural Digital IFTO</title>
+
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/components/header/header.css" />
+    <link rel="stylesheet" href="/components/sidebar/sidebar.css" />
+    <link rel="stylesheet" href="/css/painel.css" />
+  </head>
+
+  <body>
+    <div id="header"></div>
+    <div id="sidebar"></div>
+
+    <main class="admin-main">
+      <div class="page-header">
+        <h1>Painel Administrativo</h1>
+
+        <a href="/pages/criar-publicacao.html" class="btn btn-primary">
+          <i data-lucide="plus"></i>
+          Nova Publicação
+        </a>
+      </div>
+
+      <section class="resumo-publicacoes">
+        <article class="resumo-card">
+          <div class="resumo-icone icone-total">
+            <i data-lucide="layers"></i>
+          </div>
+
+          <div class="resumo-informacoes">
+            <span>Total de publicações</span>
+            <strong id="total-publicacoes">0</strong>
+          </div>
+        </article>
+
+        <article class="resumo-card">
+          <div class="resumo-icone icone-noticia">
+            <i data-lucide="newspaper"></i>
+          </div>
+
+          <div class="resumo-informacoes">
+            <span>Notícias</span>
+            <strong id="total-noticias">0</strong>
+          </div>
+        </article>
+
+        <article class="resumo-card">
+          <div class="resumo-icone icone-evento">
+            <i data-lucide="calendar-days"></i>
+          </div>
+
+          <div class="resumo-informacoes">
+            <span>Eventos</span>
+            <strong id="total-eventos">0</strong>
+          </div>
+        </article>
+
+        <article class="resumo-card">
+          <div class="resumo-icone icone-video">
+            <i data-lucide="video"></i>
+          </div>
+
+          <div class="resumo-informacoes">
+            <span>Vídeos</span>
+            <strong id="total-videos">0</strong>
+          </div>
+        </article>
+      </section>
+
+      <section class="publicacoes-container">
+        <div class="publicacoes-cabecalho">
+          <div>
+            <h2>Últimas publicações</h2>
+            <p>Visualize as publicações adicionadas recentemente.</p>
+          </div>
+
+          <a href="/pages/gerenciar-publicacoes.html" class="btn-ver-todas">
+            Ver todas
+            <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="publicacoes-header">
+          <span>Título</span>
+          <span>Tipo</span>
+          <span>Data</span>
+        </div>
+
+        <div class="publicacoes-list" id="publicacoes-list">
+          <p class="sem-publicacoes">Carregando publicações...</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="/js/proteger-admin.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/painel.js"></script>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+CONFIGURAÇÃO DO ADMINISTRADOR GLOBAL
+
+1. Na pasta principal do projeto, copie o arquivo .env.example e renomeie a cópia para .env.
+2. No arquivo .env, defina SESSION_SECRET com uma chave aleatória longa (pelo menos 32 caracteres).
+3. Defina ADMIN_SENHA com a senha que você usará para entrar (mínimo de 8 caracteres). Não compartilhe nem publique o arquivo .env.
+4. No terminal, dentro da pasta principal, execute: npm install
+5. Depois execute: npm start
+
+O servidor cria/atualiza o administrador global ao iniciar, atribuindo todas as permissões cadastradas.
+
+Dados do administrador:
+Nome: Samuel Vieira de Souza
+E-mail: samuel.souza7@estudante.ifto.edu.br
+Matrícula: 202512940007
+Senha: a que você definiu em ADMIN_SENHA no arquivo .env
+
+O login aceita e-mails @gmail.com e @estudante.ifto.edu.br.

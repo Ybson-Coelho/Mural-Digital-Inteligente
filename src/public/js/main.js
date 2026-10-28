@@ -33,13 +33,34 @@ function setActiveSidebarItem() {
   });
 }
 
+async function carregarUsuarioHeader() {
+  const elNomeUsuario = document.getElementById("nome-usuario");
+
+  if (!elNomeUsuario) return;
+
+  try {
+    const resposta = await fetch("/api/sessao");
+    const dados = await resposta.json();
+
+    if (dados.autenticado && dados.usuario && dados.usuario.nome_usuario) {
+      elNomeUsuario.textContent = dados.usuario.nome_usuario;
+    } else {
+      elNomeUsuario.textContent = "Visitante";
+    }
+  } catch (erro) {
+    console.error("Erro ao carregar dados do usuário:", erro);
+    elNomeUsuario.textContent = "Usuário";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   await Promise.all([
-    loadComponent("#header", "../components/header/header.html"),
-    loadComponent("#sidebar", "../components/sidebar/sidebar.html"),
+    loadComponent("#header", "/components/header/header.html"),
+    loadComponent("#sidebar", "/components/sidebar/sidebar.html"),
   ]);
 
   setActiveSidebarItem();
+  await carregarUsuarioHeader();
 
   if (
     typeof lucide !== "undefined" &&
