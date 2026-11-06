@@ -1,0 +1,143 @@
+.toast-container {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  width: min(380px, calc(100vw - 32px));
+  pointer-events: none;
+}
+
+.toast {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px 16px;
+  pointer-events: auto;
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-primary);
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  color: var(--color-text-main);
+  font-size: 14px;
+  animation: toastEntrada 0.25s ease;
+}
+
+.toast-icone {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--color-primary);
+}
+
+.toast-icone svg,
+.toast-icone i {
+  width: 20px;
+  height: 20px;
+}
+
+.toast-texto {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.toast-sucesso {
+  border-left-color: #22c55e;
+}
+
+.toast-sucesso .toast-icone {
+  color: #22c55e;
+}
+
+.toast-erro {
+  border-left-color: var(--color-danger);
+}
+
+.toast-erro .toast-icone {
+  color: var(--color-danger);
+}
+
+.toast-aviso {
+  border-left-color: #f0a020;
+}
+
+.toast-aviso .toast-icone {
+  color: #c07a00;
+}
+
+.toast-confirmacao {
+  flex-direction: column;
+  gap: 10px;
+  border-left-color: var(--color-danger);
+}
+
+.toast-confirmacao-cabecalho {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text-main);
+}
+
+.toast-confirmacao-cabecalho svg,
+.toast-confirmacao-cabecalho i {
+  width: 20px;
+  height: 20px;
+  color: var(--color-danger);
+  flex-shrink: 0;
+}
+
+.toast-confirmacao strong {
+  font-size: 15px;
+}
+
+.toast-confirmacao p {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.toast-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.toast-acoes button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@keyframes toastEntrada {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .toast-container {
+    right: 10px;
+    bottom: 70px;
+    width: calc(100vw - 20px);
+  }
+
+  .toast-acoes {
+    flex-direction: column-reverse;
+  }
+
+  .toast-acoes .btn {
+    width: 100%;
+  }
+}

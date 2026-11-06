@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/toast.css" />
+    <link rel="stylesheet" href="../components/header/header.css" />
+    <link rel="stylesheet" href="../css/login.css" />
+
+    <title>Criar Nova Senha</title>
+  </head>
+
+  <body>
+    <header class="header header--static">
+      <a href="/index.html" class="header-logo">
+        <img
+          src="/assets/images/logo-ifto.png"
+          alt="Instituto Federal do Tocantins"
+        />
+      </a>
+
+      <nav class="header-actions" aria-label="Navegação">
+        <a href="/pages/mural.html" class="header-link">Mural</a>
+      </nav>
+    </header>
+
+    <main class="login-main">
+      <section class="login-card">
+        <img
+          src="../assets/images/logo-ifto-vertical.png"
+          alt="Logo IFTO"
+          class="login-logo"
+        />
+
+        <h1>Crie sua nova senha</h1>
+
+        <p class="login-subtitle">
+          Sua senha temporária precisa ser trocada antes de usar o sistema.
+        </p>
+
+        <form id="form-senha">
+          <div class="input-group">
+            <i data-lucide="lock" class="icon-left"></i>
+
+            <input
+              type="password"
+              id="nova-senha"
+              name="nova-senha"
+              placeholder="Nova senha"
+              minlength="8"
+              autocomplete="new-password"
+              required
+            />
+          </div>
+
+          <div class="input-group">
+            <i data-lucide="lock" class="icon-left"></i>
+
+            <input
+              type="password"
+              id="confirmar-senha"
+              name="confirmar-senha"
+              placeholder="Confirme a nova senha"
+              minlength="8"
+              autocomplete="new-password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="btn-salvar">
+            Salvar nova senha
+          </button>
+        </form>
+
+        <a href="/index.html" class="link">Voltar para o Início</a>
+      </section>
+    </main>
+
+    <footer class="footer">IFTO - Mural Digital</footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/toast.js"></script>
+    <script src="/js/criar-senha.js"></script>
+  </body>
+</html>

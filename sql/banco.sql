@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS usuario (
     nome_usuario VARCHAR(250) NOT NULL,
     matricula_usuario VARCHAR(50) UNIQUE NULL,
     email_usuario VARCHAR(250) UNIQUE NOT NULL,
-    senha_usuario VARCHAR(255) NOT NULL
+    senha_usuario VARCHAR(255) NOT NULL,
+    precisa_trocar_senha TINYINT(1) NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS usuario_permissoes (
@@ -75,8 +76,6 @@ VALUES
      'Criar e administrar eventos'),
     ('gerenciar_videos',
      'Adicionar e administrar vídeos'),
-    ('gerenciar_publicacoes',
-     'Administrar publicações em geral'),
     ('visualizar_painel',
      'Acessar o painel administrativo');
 

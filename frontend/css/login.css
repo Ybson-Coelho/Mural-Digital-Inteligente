@@ -1,0 +1,125 @@
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px 28px;
+  text-align: center;
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.login-logo {
+  display: block;
+  width: 90px;
+  height: auto;
+  margin: 0 auto 18px;
+}
+
+.login-card h1 {
+  margin-bottom: 6px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.login-subtitle {
+  margin-bottom: 24px;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+#form-login,
+#form-senha {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.input-group {
+  position: relative;
+  width: 100%;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 42px;
+}
+
+.input-group svg {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--color-text-muted);
+}
+
+.icon-left {
+  left: 14px;
+}
+
+.icon-right {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.icon-right svg {
+  position: static;
+  transform: none;
+}
+
+.icon-right:hover {
+  color: var(--color-text-main);
+}
+
+.campo-ajuda {
+  margin-top: -6px;
+  color: var(--color-text-muted);
+  font-size: 12px;
+}
+
+.login-card .btn {
+  width: 100%;
+}
+
+.login-card .link {
+  display: inline-block;
+  margin-top: 18px;
+}
+
+@media (max-width: 600px) {
+  .login-main {
+    padding: 24px 14px;
+  }
+
+  .login-card {
+    padding: 26px 20px;
+  }
+
+  .login-card h1 {
+    font-size: 21px;
+  }
+}

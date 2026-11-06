@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/toast.css" />
+    <link rel="stylesheet" href="../css/cadeado.css" />
+    <link rel="stylesheet" href="../components/header/header.css" />
+    <link rel="stylesheet" href="../components/sidebar/sidebar.css" />
+    <link rel="stylesheet" href="../css/acessos.css" />
+
+    <title>Usuários - IFTO</title>
+  </head>
+
+  <body>
+    <div id="header"></div>
+    <div id="sidebar"></div>
+
+    <main class="admin-main">
+      <div class="page-header">
+        <h1>Usuários</h1>
+
+        <button type="button" class="btn btn-primary" id="btn-novo-usuario">
+          <i data-lucide="user-plus"></i>
+          Novo usuário
+        </button>
+      </div>
+
+      <section class="senha-temporaria" id="caixa-senha" hidden>
+        <strong>Senha temporária</strong>
+        <p>
+          Passe esta senha para a pessoa. Ela só aparece agora e deve ser
+          trocada no primeiro acesso.
+        </p>
+
+        <div class="senha-temporaria-linha">
+          <input type="text" id="senha-temporaria" readonly />
+
+          <button type="button" class="btn btn-secondary" id="btn-copiar">
+            Copiar
+          </button>
+        </div>
+      </section>
+
+      <section class="usuarios-container">
+        <div class="usuarios-header">
+          <span>Nome</span>
+          <span>E-mail</span>
+          <span>Permissões</span>
+          <span>Ações</span>
+        </div>
+
+        <div class="usuarios-list" id="usuarios-list">
+          <p class="sem-publicacoes">Carregando usuários...</p>
+        </div>
+      </section>
+
+    </main>
+
+    <div class="modal" id="modal-usuario" hidden>
+      <div
+        class="modal-conteudo"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="form-titulo"
+      >
+        <div class="modal-cabecalho">
+          <h2 id="form-titulo">Novo usuário</h2>
+
+          <button
+            type="button"
+            class="modal-fechar"
+            id="btn-fechar-formulario"
+            aria-label="Fechar"
+          >
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+
+        <form id="userForm">
+          <div class="modal-corpo">
+            <div class="form-group">
+              <label for="name">Nome completo</label>
+
+              <div class="input-wrapper">
+                <i data-lucide="user" class="icon"></i>
+
+                <input
+                  type="text"
+                  id="name"
+                  name="nome"
+                  placeholder="Ex: João da Silva"
+                  minlength="2"
+                  maxlength="250"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">E-mail</label>
+
+              <div class="input-wrapper">
+                <i data-lucide="mail" class="icon"></i>
+
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Ex: nome@estudante.ifto.edu.br"
+                  maxlength="250"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+
+              <small>Use um e-mail @estudante.ifto.edu.br ou @ifto.edu.br.</small>
+            </div>
+
+            <div class="form-group">
+              <label>Permissões de acesso</label>
+
+              <div class="permissions-grid" id="permissions-list"></div>
+            </div>
+
+            <div class="form-extra" id="area-senha-temporaria" hidden>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                id="btn-nova-senha"
+              >
+                Gerar nova senha temporária
+              </button>
+            </div>
+          </div>
+
+          <div class="modal-acoes">
+            <button type="button" class="btn btn-secondary" id="btn-cancelar">
+              Cancelar
+            </button>
+
+            <button type="submit" class="btn btn-primary" id="btn-salvar">
+              Salvar usuário
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/toast.js"></script>
+    <script src="../js/cadeado.js"></script>
+    <script src="../js/proteger-admin.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/acessos.js"></script>
+  </body>
+</html>

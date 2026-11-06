@@ -14,4 +14,4 @@ E-mail: samuel.souza7@estudante.ifto.edu.br
 Matrícula: 202512940007
 Senha: a que você definiu em ADMIN_SENHA no arquivo .env
 
-O login aceita e-mails @gmail.com e @estudante.ifto.edu.br.
+O login aceita apenas e-mails @estudante.ifto.edu.br e @ifto.edu.br.

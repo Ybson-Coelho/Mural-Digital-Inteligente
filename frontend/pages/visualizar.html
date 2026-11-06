@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/toast.css" />
+    <link rel="stylesheet" href="../components/header/header.css" />
+    <link rel="stylesheet" href="../css/visualizar.css" />
+
+    <title>Publicação - Mural Digital IFTO</title>
+  </head>
+
+  <body>
+    <header class="header header--static">
+      <a href="/index.html" class="header-logo">
+        <img
+          src="/assets/images/logo-ifto.png"
+          alt="Instituto Federal do Tocantins"
+        />
+      </a>
+
+      <nav class="header-actions" aria-label="Navegação">
+        <a href="/pages/mural.html" class="header-link">Mural</a>
+        <a href="/pages/login.html" class="btn btn-primary btn-small">
+          Entrar
+        </a>
+      </nav>
+    </header>
+
+    <main class="tela3-noticia__content">
+      <a href="mural.html" class="tela3-noticia__back" id="link-voltar">
+        <i data-lucide="arrow-left"></i>
+        Voltar para o mural
+      </a>
+
+      <article class="tela3-noticia__article">
+        <span class="tela3-noticia__tag" id="publicacao-tag" hidden></span>
+
+        <h1 id="publicacao-titulo">Carregando publicação...</h1>
+
+        <div class="tela3-noticia__date" id="publicacao-data"></div>
+
+        <div class="tela3-noticia__image" id="publicacao-midia" hidden></div>
+
+        <div class="tela3-noticia__meta" id="publicacao-meta" hidden></div>
+
+        <div class="tela3-noticia__text" id="publicacao-texto"></div>
+      </article>
+    </main>
+
+    <footer class="footer">IFTO - Mural Digital</footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/toast.js"></script>
+    <script src="../js/visualizar.js"></script>
+  </body>
+</html>

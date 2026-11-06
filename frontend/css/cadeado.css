@@ -1,0 +1,95 @@
+.bloqueado {
+  position: relative;
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.bloqueado:hover {
+  transform: none;
+}
+
+.cadeado-icone {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: var(--color-bg-card);
+  color: var(--color-text-muted);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.cadeado-icone svg,
+.cadeado-icone i {
+  width: 12px;
+  height: 12px;
+}
+
+.checkbox-item.bloqueado {
+  padding-right: 22px;
+  cursor: not-allowed;
+}
+
+.checkbox-item.bloqueado input {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.sidebar-item.bloqueado {
+  padding-right: 32px;
+  opacity: 0.6;
+}
+
+.sidebar-item.bloqueado:hover {
+  background-color: transparent;
+}
+
+.sidebar-item .cadeado-icone {
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background-color: transparent;
+  box-shadow: none;
+  color: #ffffff;
+}
+
+.sidebar-item .cadeado-icone svg,
+.sidebar-item .cadeado-icone i {
+  width: 14px;
+  height: 14px;
+}
+
+@media (max-width: 768px) {
+  .sidebar-item.bloqueado {
+    padding-right: 2px;
+    opacity: 1;
+  }
+
+  .sidebar-item.bloqueado .sidebar-icon,
+  .sidebar-item.bloqueado > span:nth-child(2) {
+    opacity: 0.55;
+  }
+
+  .sidebar-item .cadeado-icone {
+    top: calc(50% - 11px);
+    right: auto;
+    left: calc(50% + 11px);
+    transform: none;
+    width: 14px;
+    height: 14px;
+    background-color: var(--color-primary-dark);
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .sidebar-item .cadeado-icone svg,
+  .sidebar-item .cadeado-icone i {
+    width: 9px;
+    height: 9px;
+  }
+}

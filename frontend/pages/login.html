@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/toast.css" />
+    <link rel="stylesheet" href="../css/login.css" />
+
+    <title>Login do Administrador</title>
+  </head>
+
+  <body>
+    <main class="login-main">
+      <section class="login-card">
+        <img
+          src="../assets/images/logo-ifto-vertical.png"
+          alt="Logo IFTO"
+          class="login-logo"
+        />
+
+        <h1>Acesso do Administrador</h1>
+
+        <p class="login-subtitle">
+          Entre com seu e-mail e sua senha para continuar.
+        </p>
+
+        <form id="form-login">
+          <div class="input-group">
+            <i data-lucide="mail" class="icon-left"></i>
+
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="nome@estudante.ifto.edu.br"
+              autocomplete="email"
+              required
+            />
+          </div>
+
+          <small class="campo-ajuda">
+            Use um e-mail @estudante.ifto.edu.br ou @ifto.edu.br.
+          </small>
+
+          <div class="input-group">
+            <i data-lucide="lock" class="icon-left"></i>
+
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              placeholder="Senha"
+              autocomplete="current-password"
+              required
+            />
+
+            <button
+              type="button"
+              class="icon-right"
+              id="toggleSenha"
+              aria-label="Mostrar senha"
+            >
+              <i data-lucide="eye"></i>
+            </button>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="btn-entrar">
+            Entrar
+          </button>
+        </form>
+
+        <a href="/index.html" class="link">Voltar para o Início</a>
+      </section>
+    </main>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="/js/config.js"></script>
+    <script src="/js/toast.js"></script>
+    <script src="/js/login.js"></script>
+  </body>
+</html>
