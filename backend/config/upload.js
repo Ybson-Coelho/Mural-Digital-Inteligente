@@ -3,7 +3,8 @@ const fs = require("fs");
 const crypto = require("crypto");
 const multer = require("multer");
 
-const pastaUploads = path.join(__dirname, "..", "..", "uploads");
+const pastaUploads =
+  process.env.UPLOAD_DIR || path.join(__dirname, "..", "..", "uploads");
 fs.mkdirSync(pastaUploads, { recursive: true });
 
 const armazenamentoUploads = multer.diskStorage({

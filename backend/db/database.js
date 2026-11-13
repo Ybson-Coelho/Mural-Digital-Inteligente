@@ -7,10 +7,13 @@ const { emailValido } = require("../config/email");
 require("dotenv").config({ path: path.join(__dirname, "..", "..", ".env") });
 require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
-const pastaDados = path.join(__dirname, "..", "..", "dados");
+const caminhoBanco =
+  process.env.DB_PATH ||
+  path.join(__dirname, "..", "..", "dados", "viva_ciencia.sqlite");
+const pastaDados = path.dirname(caminhoBanco);
 fs.mkdirSync(pastaDados, { recursive: true });
 
-const db = new Database(path.join(pastaDados, "viva_ciencia.sqlite"));
+const db = new Database(caminhoBanco);
 db.pragma("foreign_keys = ON");
 db.pragma("journal_mode = WAL");
 

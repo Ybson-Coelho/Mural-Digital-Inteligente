@@ -1,10 +1,13 @@
 const path = require("path");
+const fs = require("fs");
 require("dotenv").config({ path: path.join(__dirname, "..", "..", ".env") });
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
 const Database = require("better-sqlite3");
 const bcrypt = require("bcryptjs");
 const { emailValido, MENSAGEM_EMAIL_INVALIDO } = require("../config/email");
 
+const nome = (process.env.ADMIN_NOME || "Samuel Vieira de Souza").trim();
 const email = (process.env.ADMIN_EMAIL || "samuel.souza7@estudante.ifto.edu.br")
   .trim()
   .toLowerCase();
@@ -23,10 +26,12 @@ if (!emailValido(email)) {
   process.exit(1);
 }
 
-const pastaDados = path.join(__dirname, "..", "..", "dados");
-const fs = require("fs");
+const caminhoBanco =
+  process.env.DB_PATH ||
+  path.join(__dirname, "..", "..", "dados", "viva_ciencia.sqlite");
+const pastaDados = path.dirname(caminhoBanco);
 fs.mkdirSync(pastaDados, { recursive: true });
-const db = new Database(path.join(pastaDados, "viva_ciencia.sqlite"));
+const db = new Database(caminhoBanco);
 
 try {
   db.exec(`

@@ -1,0 +1,40 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: mural_backend
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3001}:${PORT:-3001}"
+    environment:
+      - PORT=${PORT:-3001}
+      - DB_PATH=${DB_PATH:-/app/dados/viva_ciencia.sqlite}
+      - UPLOAD_DIR=${UPLOAD_DIR:-/app/uploads}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:5500}
+      - BACKEND_URL=${BACKEND_URL:-http://localhost:3001}
+      - ADMIN_NOME=${ADMIN_NOME}
+      - ADMIN_EMAIL=${ADMIN_EMAIL}
+      - ADMIN_MATRICULA=${ADMIN_MATRICULA}
+      - ADMIN_SENHA=${ADMIN_SENHA}
+    volumes:
+      - dados_banco:/app/dados
+      - uploads_midia:/app/uploads
+    deploy:
+      replicas: 1
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: mural_frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-5500}:80"
+    depends_on:
+      - backend
+
+volumes:
+  dados_banco:
+  uploads_midia:

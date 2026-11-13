@@ -1,4 +1,7 @@
-const API_ORIGIN = process.env.BACKEND_URL || "http://localhost:3001";
+const API_ORIGIN =
+  typeof window !== "undefined" && window.location
+    ? `${window.location.protocol}//${window.location.hostname}:3001`
+    : "http://localhost:3001";
 const API_URL = `${API_ORIGIN}/api`;
 const IMAGEM_PADRAO = "/assets/images/images (3).jpg";
 

@@ -36,6 +36,9 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 # Ignora todo o conteúdo da pasta dados
 /dados/*
 !/dados/.gitkeep
+*.sqlite
+*.sqlite-journal
+*.db
 
 # Ignorar os arquivos e mídias de uploads
 /uploads/*

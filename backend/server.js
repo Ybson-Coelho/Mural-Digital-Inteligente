@@ -10,7 +10,7 @@ const multer = require("multer");
 
 require("./db/database");
 
-const { FRONTEND_URL } = require("./config/frontend");
+const { origensPermitidas } = require("./config/frontend");
 const { pastaUploads } = require("./config/upload");
 const authRoutes = require("./routes/authRoutes");
 const usuarioRoutes = require("./routes/usuarioRoutes");
@@ -29,7 +29,7 @@ app.use(
 
 app.use(
   cors({
-    origin: [FRONTEND_URL],
+    origin: origensPermitidas,
     credentials: true,
   }),
 );
