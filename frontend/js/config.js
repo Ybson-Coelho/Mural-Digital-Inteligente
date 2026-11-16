@@ -1,7 +1,14 @@
-const API_ORIGIN =
-  typeof window !== "undefined" && window.location
-    ? `${window.location.protocol}//${window.location.hostname}:3001`
-    : "http://localhost:3001";
+const URL_BACKEND_PRODUCAO = "https://mural-digital-inteligente-backend.onrender.com";
+
+const isLocalhost =
+  typeof window !== "undefined" &&
+  (window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1");
+
+const API_ORIGIN = isLocalhost
+  ? `${window.location.protocol}//${window.location.hostname}:3001`
+  : URL_BACKEND_PRODUCAO;
+
 const API_URL = `${API_ORIGIN}/api`;
 const IMAGEM_PADRAO = "/assets/images/images (3).jpg";
 
