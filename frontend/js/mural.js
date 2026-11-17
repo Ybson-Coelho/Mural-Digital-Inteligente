@@ -1,5 +1,5 @@
 const containerPublicacoes = document.getElementById("publicacoes");
-const botoesFiltro = document.querySelectorAll(".tela2-mural__filter");
+const botoesFiltro = document.querySelectorAll(".mural-filter");
 
 let filtroAtivo = "todos";
 
@@ -27,10 +27,10 @@ function mostrarAviso(titulo, texto) {
   if (!containerPublicacoes) return;
 
   const aviso = document.createElement("div");
-  aviso.className = "tela2-mural__empty";
+  aviso.className = "mural-empty";
 
   const icone = document.createElement("div");
-  icone.className = "tela2-mural__empty-icon";
+  icone.className = "mural-empty-icon";
   icone.innerHTML = '<i data-lucide="newspaper"></i>';
 
   const tituloElemento = document.createElement("h2");
@@ -45,72 +45,63 @@ function mostrarAviso(titulo, texto) {
 }
 
 function criarImagem(publicacao) {
-  const caminho =
-    publicacao.tipo === "video" ? "" : urlArquivo(publicacao.imagem);
+  const caminho = urlArquivo(publicacao.imagem);
 
-  if (!caminho && publicacao.tipo !== "video") return null;
+  if (!caminho) return null;
 
   const area = document.createElement("div");
-  area.className = "tela2-mural__card-image";
+  area.className = "mural-card-image";
 
   const fundo = document.createElement("img");
-  fundo.className = "tela2-mural__card-image-fundo";
+  fundo.className = "mural-card-image-fundo";
   fundo.alt = "";
   fundo.setAttribute("aria-hidden", "true");
 
   const imagem = document.createElement("img");
-  imagem.className = "tela2-mural__card-image-frente";
+  imagem.className = "mural-card-image-frente";
   imagem.alt = publicacao.titulo || "Imagem da publicação";
 
-  if (caminho) {
-    fundo.src = caminho;
-    imagem.src = caminho;
+  fundo.src = caminho;
+  imagem.src = caminho;
 
-    fundo.addEventListener("error", () => fundo.remove(), { once: true });
-    imagem.addEventListener("error", () => area.remove(), { once: true });
-  } else {
-    prepararImagem(fundo, "");
-    prepararImagem(imagem, "");
-  }
+  fundo.addEventListener("error", () => fundo.remove(), { once: true });
+  imagem.addEventListener("error", () => area.remove(), { once: true });
 
   area.append(fundo, imagem);
-
-  if (publicacao.tipo === "video") {
-    const play = document.createElement("span");
-    play.className = "tela2-mural__play";
-    play.innerHTML = '<i data-lucide="play"></i>';
-    area.appendChild(play);
-  }
 
   return area;
 }
 
 function criarConteudo(publicacao) {
   const conteudo = document.createElement("div");
-  conteudo.className = "tela2-mural__card-content";
+  conteudo.className = "mural-card-content";
 
   const tag = document.createElement("span");
-  tag.className = "tela2-mural__tag";
+  tag.className = "mural-tag";
   tag.textContent = nomesTipo[publicacao.tipo] || publicacao.tipo;
 
   const titulo = document.createElement("h2");
   titulo.textContent = publicacao.titulo || "Sem título";
 
-  const descricao = document.createElement("p");
-  descricao.textContent = textoSemHTML(publicacao.descricao);
-
   const data = document.createElement("span");
-  data.className = "tela2-mural__date";
+  data.className = "mural-date";
   data.textContent = formatarData(publicacao.data);
 
-  conteudo.append(tag, titulo, descricao, data);
+  conteudo.append(tag, titulo, data);
+
+  if (publicacao.autor) {
+    const autor = document.createElement("span");
+    autor.className = "mural-autor";
+    autor.textContent = `Por ${publicacao.autor}`;
+    conteudo.append(autor);
+  }
 
   return conteudo;
 }
 
 function criarSeta() {
   const seta = document.createElement("div");
-  seta.className = "tela2-mural__arrow";
+  seta.className = "mural-arrow";
   seta.innerHTML = '<i data-lucide="chevron-right"></i>';
   return seta;
 }
@@ -121,17 +112,50 @@ function atualizarIcones() {
   }
 }
 
+function criarVideo(publicacao) {
+  const idYouTube = extrairIdYouTube(publicacao.url);
+
+  if (!idYouTube) return null;
+
+  const area = document.createElement("div");
+  area.className = "mural-card-image";
+
+  const iframe = document.createElement("iframe");
+  iframe.src = `https://www.youtube-nocookie.com/embed/${idYouTube}`;
+  iframe.title = publicacao.titulo || "Vídeo";
+  iframe.setAttribute("frameborder", "0");
+  iframe.setAttribute(
+    "allow",
+    "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+  );
+  iframe.setAttribute("allowfullscreen", "true");
+
+  area.appendChild(iframe);
+
+  return area;
+}
+
+function criarMidia(publicacao) {
+  if (publicacao.tipo === "video") {
+    const video = criarVideo(publicacao);
+
+    if (video) return video;
+  }
+
+  return criarImagem(publicacao);
+}
+
 function criarCard(publicacao) {
   const card = document.createElement("article");
-  card.className = "tela2-mural__card";
+  card.className = "mural-card";
   card.dataset.tipo = publicacao.tipo;
 
-  const imagem = criarImagem(publicacao);
+  const midia = criarMidia(publicacao);
 
-  if (imagem) {
-    card.appendChild(imagem);
+  if (midia) {
+    card.appendChild(midia);
   } else {
-    card.classList.add("tela2-mural__card--sem-imagem");
+    card.classList.add("mural-card--sem-imagem");
   }
 
   card.append(criarConteudo(publicacao), criarSeta());
@@ -144,7 +168,7 @@ function criarCard(publicacao) {
 }
 
 function filtrarCards() {
-  document.querySelectorAll(".tela2-mural__card").forEach((card) => {
+  document.querySelectorAll(".mural-card").forEach((card) => {
     const mostrar = filtroAtivo === "todos" || filtroAtivo === card.dataset.tipo;
     card.style.display = mostrar ? "flex" : "none";
   });
@@ -152,10 +176,10 @@ function filtrarCards() {
 
 function ativarFiltro(botao) {
   botoesFiltro.forEach((item) =>
-    item.classList.remove("tela2-mural__filter--active"),
+    item.classList.remove("mural-filter--active"),
   );
 
-  botao.classList.add("tela2-mural__filter--active");
+  botao.classList.add("mural-filter--active");
   filtroAtivo = botao.dataset.filtro;
   filtrarCards();
 }

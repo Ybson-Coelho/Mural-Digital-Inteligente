@@ -351,13 +351,31 @@
 
             <fieldset class="campos-tipo" id="campos-video" hidden disabled>
               <div class="form-group">
-                <label for="arquivo-video">Selecionar Vídeo</label>
+                <label for="link-video">Link do YouTube</label>
+                <input
+                  type="url"
+                  id="link-video"
+                  name="link_video"
+                  placeholder="Ex.: https://www.youtube.com/watch?v=..."
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="imagem-video">Imagem de capa (opcional)</label>
                 <input
                   type="file"
-                  id="arquivo-video"
-                  name="arquivo_video"
-                  accept="video/*"
-                  required
+                  id="imagem-video"
+                  name="arquivo"
+                  accept="image/jpeg,image/png,image/webp"
+                  data-opcional="true"
+                />
+                <small>JPG, PNG ou WebP, até 5 MB.</small>
+                <img
+                  class="preview-imagem-edicao"
+                  id="preview-video"
+                  alt="Capa do vídeo"
+                  hidden
                 />
               </div>
             </fieldset>
@@ -368,7 +386,7 @@
           <div class="modal-acoes">
             <button
               type="button"
-              class="btn btn-secondary"
+              class="btn btn-secondary btn-cancelar"
               id="btn-cancelar-modal"
             >
               Cancelar

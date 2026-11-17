@@ -1,9 +1,17 @@
-const URL_DO_MURAL = `${window.location.origin}/pages/mural.html`;
+const TEMPO_MAXIMO_VIDEO = 60;
+const TEMPO_ESPERA_VIDEO = 5000;
+const TENTATIVAS_VIDEO = 3;
 
 let publicacoes = [];
 let atual = 0;
 let temporizador;
+let temporizadorVideo;
+let temporizadorEspera;
 let slideAtualId = null;
+let qrAtual = "";
+let playerAtual = null;
+let iniciarPendente = null;
+let apiPronta = false;
 
 const area = document.getElementById("area-central");
 
@@ -68,6 +76,12 @@ function montarImagem(publicacao) {
   `;
 }
 
+function montarAutor(publicacao) {
+  if (!publicacao.autor) return "";
+
+  return `<div class="autor">Por ${escaparHTML(publicacao.autor)}</div>`;
+}
+
 function montarEvento(publicacao) {
   const dataInicio = publicacao.dataEvento || publicacao.data;
   let periodo = formatarData(dataInicio);
@@ -85,6 +99,7 @@ function montarEvento(publicacao) {
         <span><strong>Data:</strong> ${periodo}</span>
         ${publicacao.publico ? `<span>${escaparHTML(publicacao.publico)}</span>` : ""}
       </div>
+      ${montarAutor(publicacao)}
     </div>
     ${montarImagem(publicacao)}
   `;
@@ -99,31 +114,264 @@ function montarNoticia(publicacao) {
       <div class="meta">
         <span>${formatarData(publicacao.data)}</span>
       </div>
+      ${montarAutor(publicacao)}
     </div>
     ${montarImagem(publicacao)}
   `;
 }
 
 function montarVideo(publicacao) {
-  const videoSrc = urlArquivo(publicacao.url) || urlArquivo(publicacao.imagem);
+  const idYouTube = extrairIdYouTube(publicacao.url);
+  const videoSrc = urlArquivo(publicacao.url);
+
+  let blocoMidia = "";
+
+  if (idYouTube) {
+    const miniatura = publicacao.imagem
+      ? urlArquivo(publicacao.imagem)
+      : `https://img.youtube.com/vi/${idYouTube}/maxresdefault.jpg`;
+
+    blocoMidia = `
+      <div class="video-area">
+        <div class="video-player"></div>
+        <img class="video-capa" src="${miniatura}" alt="" />
+      </div>
+    `;
+  } else if (
+    videoSrc &&
+    (videoSrc.endsWith(".mp4") || videoSrc.startsWith("/uploads/"))
+  ) {
+    blocoMidia = `
+      <div class="video-area">
+        <video src="${videoSrc}" autoplay muted playsinline></video>
+      </div>
+    `;
+  }
 
   return `
-    <div class="video-area">
-      ${
-        videoSrc
-          ? `<video src="${videoSrc}" autoplay muted playsinline></video>`
-          : ""
-      }
-      <img
-        class="video-fallback"
-        src="${IMAGEM_PADRAO}"
-        alt=""
-        ${videoSrc ? "hidden" : ""}
-      />
-    </div>
+    ${blocoMidia}
     <span class="badge azul">Vídeo</span>
-    <div class="legenda">${escaparHTML(publicacao.titulo)}</div>
+    <div class="legenda">
+      ${escaparHTML(publicacao.titulo)}
+      ${montarAutor(publicacao)}
+    </div>
   `;
+}
+
+function onYouTubeIframeAPIReady() {
+  apiPronta = true;
+
+  if (iniciarPendente) {
+    iniciarPendente();
+    iniciarPendente = null;
+  }
+}
+
+function pararPlayer(slide) {
+  if (!slide || !slide.player) return;
+
+  if (typeof slide.player.destroy === "function") {
+    slide.player.destroy();
+  }
+
+  if (playerAtual === slide.player) {
+    playerAtual = null;
+  }
+
+  slide.player = null;
+}
+
+function pedirQualidade() {
+  if (!playerAtual) return;
+
+  if (typeof playerAtual.setPlaybackQualityRange === "function") {
+    playerAtual.setPlaybackQualityRange("hd1080", "hd1080");
+  }
+
+  if (typeof playerAtual.setPlaybackQuality === "function") {
+    playerAtual.setPlaybackQuality("hd1080");
+  }
+}
+
+function tocarVideo() {
+  if (!playerAtual) return;
+
+  if (typeof playerAtual.mute === "function") {
+    playerAtual.mute();
+  }
+
+  if (typeof playerAtual.playVideo === "function") {
+    playerAtual.playVideo();
+  }
+}
+
+function conferirVideo(slide, publicacao, tentativa) {
+  const estado =
+    playerAtual && typeof playerAtual.getPlayerState === "function"
+      ? playerAtual.getPlayerState()
+      : -1;
+
+  if (
+    estado === YT.PlayerState.PLAYING ||
+    estado === YT.PlayerState.BUFFERING ||
+    estado === YT.PlayerState.CUED
+  ) {
+    return;
+  }
+
+  if (tentativa >= TENTATIVAS_VIDEO) {
+    falhouVideo(slide, publicacao);
+    return;
+  }
+
+  tocarVideo();
+
+  temporizadorEspera = setTimeout(
+    () => conferirVideo(slide, publicacao, tentativa + 1),
+    TEMPO_ESPERA_VIDEO,
+  );
+}
+
+function falhouVideo(slide, publicacao) {
+  clearTimeout(temporizador);
+  clearTimeout(temporizadorVideo);
+  clearTimeout(temporizadorEspera);
+  iniciarPendente = null;
+
+  pararPlayer(slide);
+
+  const capa = slide ? slide.querySelector(".video-capa") : null;
+
+  if (capa) capa.hidden = false;
+
+  const tempo = Number(publicacao.tempoTela) || 10;
+  temporizador = setTimeout(proximo, tempo * 1000);
+}
+
+function iniciarVideo(slide, publicacao) {
+  const capa = slide.querySelector(".video-capa");
+  const video = slide.querySelector("video");
+  const idYouTube = extrairIdYouTube(publicacao.url);
+
+  if (capa) {
+    capa.addEventListener("load", () => {
+      if (!idYouTube || capa.dataset.trocada) return;
+
+      if (!capa.src.includes("img.youtube.com") || capa.naturalWidth >= 320) {
+        return;
+      }
+
+      capa.dataset.trocada = "sim";
+      capa.src = `https://img.youtube.com/vi/${idYouTube}/hqdefault.jpg`;
+    });
+
+    capa.addEventListener("error", () => capa.remove(), { once: true });
+  }
+
+  if (video) {
+    video.addEventListener("ended", () => proximo(), { once: true });
+    video.addEventListener(
+      "error",
+      () => {
+        slide.querySelector(".video-area")?.remove();
+        proximo();
+      },
+      { once: true },
+    );
+
+    const tentativa = video.play();
+
+    if (tentativa && typeof tentativa.catch === "function") {
+      tentativa.catch(() => {});
+    }
+
+    return;
+  }
+
+  const alvo = slide.querySelector(".video-player");
+
+  if (!idYouTube || !alvo) {
+    falhouVideo(slide, publicacao);
+    return;
+  }
+
+  temporizadorVideo = setTimeout(proximo, TEMPO_MAXIMO_VIDEO * 1000);
+  temporizadorEspera = setTimeout(
+    () => conferirVideo(slide, publicacao, 1),
+    TEMPO_ESPERA_VIDEO,
+  );
+
+  const criar = () => {
+    if (!alvo.isConnected) return;
+
+    try {
+      playerAtual = new YT.Player(alvo, {
+        videoId: idYouTube,
+        width: 1920,
+        height: 1080,
+        playerVars: {
+          autoplay: 1,
+          mute: 1,
+          controls: 0,
+          rel: 0,
+          playsinline: 1,
+          modestbranding: 1,
+          iv_load_policy: 3,
+          fs: 0,
+          disablekb: 1,
+          cc_load_policy: 0,
+          vq: "hd1080",
+        },
+        events: {
+          onReady: () => {
+            tocarVideo();
+            pedirQualidade();
+          },
+          onAutoplayBlocked: () => {
+            tocarVideo();
+          },
+          onStateChange: (evento) => {
+            if (evento.target !== playerAtual) return;
+
+            if (evento.data === YT.PlayerState.PLAYING) {
+              clearTimeout(temporizadorEspera);
+              pedirQualidade();
+
+              if (capa) capa.hidden = true;
+            }
+
+            if (evento.data === YT.PlayerState.ENDED) {
+              proximo();
+            }
+          },
+          onError: (evento) => {
+            if (evento.target !== playerAtual) return;
+
+            falhouVideo(slide, publicacao);
+          },
+        },
+      });
+
+      slide.player = playerAtual;
+
+      const frame = slide.querySelector(".video-area iframe");
+
+      if (frame) {
+        frame.setAttribute(
+          "allow",
+          "autoplay; encrypted-media; picture-in-picture",
+        );
+      }
+    } catch (erro) {
+      falhouVideo(slide, publicacao);
+    }
+  };
+
+  if (apiPronta) {
+    criar();
+  } else {
+    iniciarPendente = criar;
+  }
 }
 
 function removerImagem(slide) {
@@ -160,6 +408,8 @@ function limparSlidesAntigos(slideNovo) {
     }
 
     setTimeout(() => {
+      pararPlayer(outro);
+
       if (outro.parentNode) outro.remove();
     }, 700);
   });
@@ -167,6 +417,12 @@ function limparSlidesAntigos(slideNovo) {
 
 function mostrar() {
   clearTimeout(temporizador);
+  clearTimeout(temporizadorVideo);
+  clearTimeout(temporizadorEspera);
+
+  if (playerAtual && typeof playerAtual.pauseVideo === "function") {
+    playerAtual.pauseVideo();
+  }
 
   if (!area) return;
 
@@ -174,6 +430,7 @@ function mostrar() {
 
   if (lista.length === 0) {
     slideAtualId = null;
+    gerarQRCode();
     area.innerHTML = `
       <div class="slide visivel">
         <div class="texto">
@@ -203,6 +460,7 @@ function mostrar() {
   }
 
   slideAtualId = publicacao.id;
+  gerarQRCode(publicacao.id);
 
   const semImagem =
     publicacao.tipo !== "video" && !urlArquivo(publicacao.imagem);
@@ -222,28 +480,7 @@ function mostrar() {
   limparSlidesAntigos(slide);
 
   if (publicacao.tipo === "video") {
-    const video = slide.querySelector("video");
-    const fallback = slide.querySelector(".video-fallback");
-
-    const usarFallback = () => {
-      if (video) video.hidden = true;
-      if (fallback) fallback.hidden = false;
-
-      clearTimeout(temporizador);
-      temporizador = setTimeout(proximo, 5000);
-    };
-
-    if (video) {
-      video.addEventListener("ended", () => proximo(), { once: true });
-      video.addEventListener("error", usarFallback, { once: true });
-
-      const tentativa = video.play();
-      if (tentativa && typeof tentativa.catch === "function") {
-        tentativa.catch(() => {});
-      }
-    } else {
-      usarFallback();
-    }
+    iniciarVideo(slide, publicacao);
   } else {
     const tempo = Number(publicacao.tempoTela) || 10;
     temporizador = setTimeout(proximo, tempo * 1000);
@@ -332,24 +569,36 @@ function atualizarData() {
   });
 }
 
-function gerarQRCode() {
+function gerarQRCode(idPublicacao) {
   const elemento = document.getElementById("qrcode");
   if (!elemento) return;
 
+  const endereco = idPublicacao
+    ? `${URL_FRONTEND}/pages/visualizar.html?id=${idPublicacao}`
+    : `${URL_FRONTEND}/pages/mural.html`;
+
+  if (endereco === qrAtual) return;
+
+  qrAtual = endereco;
   elemento.innerHTML = "";
 
-  if (typeof QRCode !== "undefined") {
-    new QRCode(elemento, {
-      text: URL_DO_MURAL,
-      width: 240,
-      height: 240,
-    });
-  } else {
+  if (typeof QRCode === "undefined") {
     elemento.textContent = "QR Code indisponível";
+    return;
   }
+
+  new QRCode(elemento, {
+    text: endereco,
+    width: 320,
+    height: 320,
+  });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (typeof YT !== "undefined" && typeof YT.Player === "function") {
+    apiPronta = true;
+  }
+
   atualizarData();
   setInterval(atualizarData, 60000);
 

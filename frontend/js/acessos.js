@@ -252,25 +252,39 @@ document.getElementById("btn-novo-usuario")?.addEventListener("click", () => {
   abrirFormulario(null);
 });
 
-document.getElementById("btn-cancelar")?.addEventListener("click", () => {
+modalUsuario?.addEventListener("click", (evento) => {
+  const botaoFechar = evento.target.closest(
+    "#btn-fechar-formulario, #btn-cancelar, .modal-fechar, .btn-cancelar",
+  );
+
+  if (botaoFechar) {
+    evento.preventDefault();
+    evento.stopPropagation();
+    fecharFormulario();
+  }
+});
+
+document.getElementById("btn-cancelar")?.addEventListener("click", (evento) => {
+  evento.preventDefault();
   fecharFormulario();
 });
 
 document
   .getElementById("btn-fechar-formulario")
-  ?.addEventListener("click", () => {
+  ?.addEventListener("click", (evento) => {
+    evento.preventDefault();
     fecharFormulario();
   });
 
-modalUsuario?.addEventListener("click", (evento) => {
-  if (evento.target === modalUsuario) fecharFormulario();
-});
-
 document.addEventListener("keydown", (evento) => {
   if (evento.key === "Escape" && modalUsuario && !modalUsuario.hidden) {
-    fecharFormulario();
+    evento.preventDefault();
   }
 });
+
+document.addEventListener("cancel", (evento) => {
+  evento.preventDefault();
+}, true);
 
 document.getElementById("btn-copiar")?.addEventListener("click", async () => {
   try {

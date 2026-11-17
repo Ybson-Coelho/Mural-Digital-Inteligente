@@ -42,6 +42,26 @@ function removerImagemAntiga(caminhoAntigo, caminhoNovo) {
   }
 }
 
+function extrairIdYouTube(url) {
+  if (!url || typeof url !== "string") return null;
+  const texto = url.trim();
+  const padrao =
+    /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/)|youtu\.be\/|youtube-nocookie\.com\/embed\/)([a-zA-Z0-9_-]{11})/i;
+  const match = texto.match(padrao);
+  return match ? match[1] : null;
+}
+
+function validarLinkYouTube(url) {
+  if (!url || typeof url !== "string") return null;
+  const texto = url.trim();
+  const temDominio =
+    /(?:^|\/\/)(?:[a-zA-Z0-9-]+\.)?(youtube\.com|youtu\.be|youtube-nocookie\.com)/i.test(
+      texto,
+    );
+  if (!temDominio) return null;
+  return extrairIdYouTube(texto);
+}
+
 function obterPublicacoes() {
   const linhas = db
     .prepare(`
@@ -53,6 +73,7 @@ function obterPublicacoes() {
         p.tipo_public,
         p.tempo_exibicao_public,
         p.arquivo_public,
+        u.nome_usuario AS autor_public,
         n.categoria_not,
         n.descricao_not,
         e.tipo_evento,
@@ -63,6 +84,8 @@ function obterPublicacoes() {
         v.duracao_video,
         v.link_video
       FROM publicacao p
+      LEFT JOIN usuario u
+        ON u.id_usuario = p.fk_usuario_public
       LEFT JOIN noticia n
         ON n.fk_public = p.numero_public
       LEFT JOIN evento e
@@ -96,6 +119,7 @@ function obterPublicacoes() {
     publico: p.publico_evento || "",
     duracao: p.duracao_video || 0,
     url: p.link_video || "",
+    autor: p.autor_public || "",
   }));
 }
 
@@ -149,13 +173,11 @@ function criarPublicacao(req, res) {
       });
     }
 
-    if (tipo !== "video") {
-      const erroImagem = validarImagem(req.file);
+    const erroImagem = validarImagem(req.file);
 
-      if (erroImagem) {
-        removerArquivo(req.file);
-        return res.status(400).json({ erro: erroImagem });
-      }
+    if (erroImagem) {
+      removerArquivo(req.file);
+      return res.status(400).json({ erro: erroImagem });
     }
 
     if (
@@ -190,14 +212,22 @@ function criarPublicacao(req, res) {
       });
     }
 
-    if (
-      tipo === "video" &&
-      (!req.file || !req.file.mimetype.startsWith("video/"))
-    ) {
-      removerArquivo(req.file);
-      return res.status(400).json({
-        erro: "Selecione um arquivo de vídeo.",
-      });
+    let linkLimpo = "";
+
+    if (tipo === "video") {
+      const linkRecebido = String(
+        req.body.linkVideo || req.body.link || "",
+      ).trim();
+      const idYouTube = validarLinkYouTube(linkRecebido);
+
+      if (!idYouTube) {
+        removerArquivo(req.file);
+        return res.status(400).json({
+          erro: "Informe um link válido do YouTube (youtube.com ou youtu.be).",
+        });
+      }
+
+      linkLimpo = `https://www.youtube.com/watch?v=${idYouTube}`;
     }
 
     const salvar = db.transaction(() => {
@@ -209,9 +239,10 @@ function criarPublicacao(req, res) {
             data_fim_public,
             tipo_public,
             tempo_exibicao_public,
-            arquivo_public
+            arquivo_public,
+            fk_usuario_public
           )
-          VALUES (?, ?, ?, ?, ?, ?)
+          VALUES (?, ?, ?, ?, ?, ?, ?)
         `)
         .run(
           titulo,
@@ -220,6 +251,7 @@ function criarPublicacao(req, res) {
           tipo,
           tempoTela,
           arquivoSalvo || null,
+          idUsuario,
         );
 
       const id = Number(publicacao.lastInsertRowid);
@@ -261,7 +293,7 @@ function criarPublicacao(req, res) {
             link_video
           )
           VALUES (?, ?, ?)
-        `).run(id, tempoTela, arquivoSalvo);
+        `).run(id, tempoTela, linkLimpo);
       }
 
       return id;
@@ -325,10 +357,6 @@ function atualizarPublicacao(req, res) {
       );
     }
 
-    if (req.file && tipo === "video") {
-      return responderErro(400, "Esta publicação não aceita imagem.");
-    }
-
     const erroImagem = validarImagem(req.file);
 
     if (erroImagem) {
@@ -379,6 +407,24 @@ function atualizarPublicacao(req, res) {
         400,
         "Preencha o tipo, a data, a descrição e o público do evento.",
       );
+    }
+
+    let linkLimpo = "";
+
+    if (tipo === "video") {
+      const linkRecebido = String(
+        req.body.linkVideo || req.body.link || "",
+      ).trim();
+      const idYouTube = validarLinkYouTube(linkRecebido);
+
+      if (!idYouTube) {
+        return responderErro(
+          400,
+          "Informe um link válido do YouTube (youtube.com ou youtu.be).",
+        );
+      }
+
+      linkLimpo = `https://www.youtube.com/watch?v=${idYouTube}`;
     }
 
     const imagemAtual = existente.arquivo_public || "";
@@ -435,9 +481,11 @@ function atualizarPublicacao(req, res) {
       } else if (tipo === "video") {
         db.prepare(`
           UPDATE video
-          SET duracao_video = ?
+          SET
+            duracao_video = ?,
+            link_video = ?
           WHERE fp_public = ?
-        `).run(tempoTela, id);
+        `).run(tempoTela, linkLimpo, id);
       }
     });
 

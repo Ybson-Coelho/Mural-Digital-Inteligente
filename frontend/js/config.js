@@ -1,5 +1,7 @@
 const URL_BACKEND_PRODUCAO = "https://mural-digital-inteligente-backend.onrender.com";
 
+const URL_FRONTEND = "https://mural-digital-inteligente.vercel.app";
+
 const isLocalhost =
   typeof window !== "undefined" &&
   (window.location.hostname === "localhost" ||
@@ -61,4 +63,13 @@ function emailValido(email) {
   const local = endereco.slice(0, -dominio.length);
 
   return /^[^\s@]+$/.test(local);
+}
+
+function extrairIdYouTube(url) {
+  if (!url || typeof url !== "string") return null;
+  const texto = url.trim();
+  const padrao =
+    /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/)|youtu\.be\/|youtube-nocookie\.com\/embed\/)([a-zA-Z0-9_-]{11})/i;
+  const match = texto.match(padrao);
+  return match ? match[1] : null;
 }

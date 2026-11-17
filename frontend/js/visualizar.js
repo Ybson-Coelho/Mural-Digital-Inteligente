@@ -16,6 +16,7 @@ const idPublicacao = obterIdDaPublicacao();
 const elementoTag = document.getElementById("publicacao-tag");
 const elementoTitulo = document.getElementById("publicacao-titulo");
 const elementoData = document.getElementById("publicacao-data");
+const elementoAutor = document.getElementById("publicacao-autor");
 const elementoMidia = document.getElementById("publicacao-midia");
 const elementoMeta = document.getElementById("publicacao-meta");
 const elementoTexto = document.getElementById("publicacao-texto");
@@ -68,23 +69,37 @@ function mostrarImagem(caminho, titulo) {
 }
 
 function mostrarVideo(publicacao) {
-  const endereco = urlArquivo(publicacao.url) || urlArquivo(publicacao.imagem);
+  const idYouTube = extrairIdYouTube(publicacao.url);
 
-  if (!endereco) {
-    mostrarImagem("", publicacao.titulo);
+  if (idYouTube) {
+    elementoMidia.innerHTML = `
+      <div class="video-container-16-9">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/${idYouTube}"
+          title="${publicacao.titulo || "Vídeo"}"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    `;
+    elementoMidia.hidden = false;
     return;
   }
 
-  elementoMidia.innerHTML =
-    "<video src=\"" + endereco + "\" controls playsinline></video>";
-  elementoMidia.hidden = false;
+  const endereco = urlArquivo(publicacao.url) || urlArquivo(publicacao.imagem);
 
-  const video = elementoMidia.querySelector("video");
-  video.addEventListener(
-    "error",
-    () => mostrarImagem("", publicacao.titulo),
-    { once: true },
-  );
+  if (endereco && (endereco.endsWith(".mp4") || endereco.includes("/uploads/"))) {
+    elementoMidia.innerHTML =
+      "<video src=\"" + endereco + "\" controls playsinline></video>";
+    elementoMidia.hidden = false;
+
+    const video = elementoMidia.querySelector("video");
+    video.addEventListener("error", () => limparMidia(), { once: true });
+    return;
+  }
+
+  limparMidia();
 }
 
 function mostrarMidia(publicacao) {
@@ -128,6 +143,8 @@ function preencherPagina(publicacao) {
 
   elementoTitulo.textContent = publicacao.titulo || "Sem título";
   elementoData.textContent = formatarData(dataDaPublicacao(publicacao));
+  elementoAutor.textContent = publicacao.autor ? `Por ${publicacao.autor}` : "";
+  elementoAutor.hidden = !publicacao.autor;
   elementoTexto.innerHTML = publicacao.descricao || "";
 
   mostrarMidia(publicacao);

@@ -15,6 +15,7 @@ const inputDataPublicacao = document.getElementById("data-publicacao");
 const inputDataFinal = document.getElementById("data-final");
 const inputTempo = document.getElementById("tempo-tela");
 const inputCategoria = document.getElementById("categoria");
+const inputLinkVideo = document.getElementById("link-video");
 const botaoSalvarPublicacao = document.getElementById("btn-salvar-publicacao");
 
 const editores = {
@@ -31,11 +32,13 @@ const blocos = {
 const camposImagem = {
   noticia: document.getElementById("imagem-noticia"),
   evento: document.getElementById("poster-evento"),
+  video: document.getElementById("imagem-video"),
 };
 
 const previews = {
   noticia: document.getElementById("preview-noticia"),
   evento: document.getElementById("preview-evento"),
+  video: document.getElementById("preview-video"),
 };
 
 let publicacoes = [];
@@ -258,28 +261,27 @@ function mostrarPreview(tipo, caminho) {
 }
 
 function atualizarCamposDoTipo() {
-  const tipo = tipoSelecionado();
-  const editandoVideo = Boolean(publicacaoEmEdicao) && tipo === "video";
-
   Object.entries(blocos).forEach(([valor, bloco]) => {
     if (!bloco) return;
 
-    const liberado = selectTipo.value === valor && !(editandoVideo && valor === "3");
+    const liberado = selectTipo.value === valor;
 
     bloco.hidden = !liberado;
     bloco.disabled = !liberado;
 
     bloco.querySelectorAll("input, select, textarea").forEach((campo) => {
       campo.disabled = !liberado;
-      campo.required =
-        liberado &&
-        !publicacaoEmEdicao &&
-        campo.dataset.opcional !== "true";
+      campo.required = liberado && campo.dataset.opcional !== "true";
     });
   });
 }
 
 function abrirModal(publicacao = null) {
+  if (publicacao && !podeGerenciar(publicacao.tipo)) {
+    mostrarToast("Você não tem permissão para editar esta publicação.", "aviso");
+    return;
+  }
+
   publicacaoEmEdicao = publicacao;
 
   formPublicacao.reset();
@@ -349,7 +351,10 @@ function preencherFormulario(publicacao) {
     document.getElementById("publico-evento").value = publicacao.publico || "";
   }
 
-  if (publicacao.tipo !== "video") {
+  if (publicacao.tipo === "video") {
+    if (inputLinkVideo) inputLinkVideo.value = publicacao.url || "";
+    mostrarPreview("video", publicacao.imagem);
+  } else {
     mostrarPreview(publicacao.tipo, publicacao.imagem);
   }
 }
@@ -360,6 +365,12 @@ function fecharModal() {
   document.body.classList.remove("modal-aberto");
   formPublicacao.reset();
   limparPreviews();
+
+  Object.values(editores).forEach((editor) => {
+    if (editor) editor.innerHTML = "";
+  });
+
+  if (inputLinkVideo) inputLinkVideo.value = "";
 }
 
 function executarComandoEditor(botao) {
@@ -390,10 +401,11 @@ function montarDados(tipo) {
     dados.append("publico", document.getElementById("publico-evento").value.trim());
   }
 
-  const arquivo =
-    tipo === "video"
-      ? document.getElementById("arquivo-video").files[0]
-      : camposImagem[tipo]?.files[0];
+  if (tipo === "video") {
+    dados.append("linkVideo", inputLinkVideo ? inputLinkVideo.value.trim() : "");
+  }
+
+  const arquivo = camposImagem[tipo]?.files[0];
 
   if (arquivo) dados.append("arquivo", arquivo);
 
@@ -441,22 +453,25 @@ function validarFormulario(tipo) {
     }
   }
 
-  if (tipo === "video" && !publicacaoEmEdicao) {
-    const arquivo = document.getElementById("arquivo-video").files[0];
+  if (tipo === "video") {
+    if (!podeGerenciar("video")) {
+      mostrarToast("Você não tem permissão para gerenciar vídeos.", "aviso");
+      return false;
+    }
 
-    if (!arquivo) {
-      mostrarToast("Selecione o vídeo.", "aviso");
+    const link = inputLinkVideo ? inputLinkVideo.value.trim() : "";
+    if (!link || !extrairIdYouTube(link)) {
+      mostrarToast("Informe um link válido do YouTube.", "aviso");
+      inputLinkVideo?.focus();
       return false;
     }
   }
 
-  if (tipo !== "video") {
-    const erroImagem = validarImagem(camposImagem[tipo]?.files[0]);
+  const erroImagem = validarImagem(camposImagem[tipo]?.files[0]);
 
-    if (erroImagem) {
-      mostrarToast(erroImagem, "aviso");
-      return false;
-    }
+  if (erroImagem) {
+    mostrarToast(erroImagem, "aviso");
+    return false;
   }
 
   return true;
@@ -606,14 +621,30 @@ inputDataPublicacao?.addEventListener("change", () => {
 });
 
 modalPublicacao?.addEventListener("click", (evento) => {
-  if (evento.target === modalPublicacao) fecharModal();
+  const botaoFechar = evento.target.closest(
+    "#btn-fechar-modal, #btn-cancelar-modal, .modal-fechar, .btn-cancelar",
+  );
+
+  if (botaoFechar) {
+    evento.preventDefault();
+    evento.stopPropagation();
+    fecharModal();
+  }
 });
 
-document.getElementById("btn-fechar-modal")?.addEventListener("click", fecharModal);
+document
+  .getElementById("btn-fechar-modal")
+  ?.addEventListener("click", (evento) => {
+    evento.preventDefault();
+    fecharModal();
+  });
 
 document
   .getElementById("btn-cancelar-modal")
-  ?.addEventListener("click", fecharModal);
+  ?.addEventListener("click", (evento) => {
+    evento.preventDefault();
+    fecharModal();
+  });
 
 document
   .getElementById("modal-publicacao")
@@ -643,10 +674,14 @@ Object.entries(camposImagem).forEach(([tipo, campo]) => {
 });
 
 document.addEventListener("keydown", (evento) => {
-  if (evento.key === "Escape" && !modalPublicacao.hidden) {
-    fecharModal();
+  if (evento.key === "Escape" && modalPublicacao && !modalPublicacao.hidden) {
+    evento.preventDefault();
   }
 });
+
+document.addEventListener("cancel", (evento) => {
+  evento.preventDefault();
+}, true);
 
 btnBusca?.addEventListener("click", executarBusca);
 

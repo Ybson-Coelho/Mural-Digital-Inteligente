@@ -84,6 +84,7 @@ const colunasPublicacaoNovas = [
   ["tipo_public", "TEXT"],
   ["tempo_exibicao_public", "INTEGER DEFAULT 10"],
   ["arquivo_public", "TEXT"],
+  ["fk_usuario_public", "INTEGER"],
 ];
 
 for (const [nome, definicao] of colunasPublicacaoNovas) {
